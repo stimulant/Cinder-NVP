@@ -15,7 +15,7 @@ using namespace ci;
 using namespace ci::app;
 
 class NVPathTextApp : public AppBasic {
- public:	
+public:	
 	void prepareSettings( Settings* settings );
 	void setup();
 	void resize();
@@ -24,7 +24,7 @@ class NVPathTextApp : public AppBasic {
 	void keyDown( KeyEvent event );
 	void draw();
 	void update();
-	
+
 	Arcball		mArcball;
 	Vec2i		mInitialMouseDown, mCurrentMouseDown;
 	bool		mDrawVerbose;
@@ -46,7 +46,7 @@ class NVPathTextApp : public AppBasic {
 	NVPFontRef mFont;
 	bool		mDebugFonts;
 	NVPFontRef mFont2;
-	
+
 	std::vector<ci::gl::Texture>		mTexs;
 };
 void NVPathTextApp::prepareSettings( Settings* settings )
@@ -72,7 +72,7 @@ void NVPathTextApp::setup()
 	//hack because nvidia path rendering won't work in setup with glew not initialized?
 	timeline().add( [this] {
 		mFont = NVPFont::create(std::string("Arial"));
-			
+
 		for(int i=60; i>5; i-=10){
 			NVPTextBoxRef mText = NVPTextBox::create();
 			mText->setText("Hello Cinder!");
@@ -98,24 +98,23 @@ void NVPathTextApp::setup()
 			layout.addLine( "Hello Cinder!" );
 			mTexs.push_back(gl::Texture( layout.render(true,false) ));
 		}
-	
+
 
 		mSetup = true;
 	},timeline().getCurrentTime()+.01f);
 
 	mPos = Vec2f(105.f,108.f);
 	mScale = 1.f;
-	 mParams = ci::params::InterfaceGl( "Parameters", Vec2i( 250, 500 ) );
-    mKerning = 1.00f;
-    mParams.addParam( "posx", &mPos.x );
-	 mParams.addParam( "posy", &mPos.y );
-	 mParams.addParam( "kerning", &mKerning,"min=0.0000 max=2.000 step=.0001" );
-	 mParams.addParam( "fill", &mFill);
-	 mParams.addParam( "underline", &mUnderline);
-	  mParams.addParam( "debug fonts", &mDebugFonts);
-	 mParams.addParam( "stroke width", &mStrokeWidth,"min=0.0000 max=2.000 step=.001" );
-	 
-	
+	mParams = ci::params::InterfaceGl( "Parameters", Vec2i( 250, 500 ) );
+	mKerning = 1.00f;
+	mParams.addParam( "posx", &mPos.x );
+	mParams.addParam( "posy", &mPos.y );
+	mParams.addParam( "kerning", &mKerning,"min=0.0000 max=2.000 step=.0001" );
+	mParams.addParam( "fill", &mFill);
+	mParams.addParam( "underline", &mUnderline);
+	mParams.addParam( "debug fonts", &mDebugFonts);
+	mParams.addParam( "stroke width", &mStrokeWidth,"min=0.0000 max=2.000 step=.001" );
+
 }
 
 void NVPathTextApp::resize()
@@ -175,7 +174,7 @@ void NVPathTextApp::draw()
 	if(mSetup){
 		gl::setViewport( getWindowBounds() );
 		gl::setMatricesWindow( getWindowWidth(), getWindowHeight() );
-		
+
 		gl::pushMatrices();
 		float yOffset = 0;
 		gl::translate(mPos);
@@ -186,17 +185,17 @@ void NVPathTextApp::draw()
 		gl::popMatrices();
 		mText2->draw(Vec2f(200,700.f));
 		gl::color(Color::white());
-		
+
 		gl::translate(100,0);
 		for(auto mTex : mTexs){
 			if(mTex)
 				gl::translate(0,60);
-				gl::draw(mTex);
-			
+			gl::draw(mTex);
+
 		}
 		mParams.draw();
 	}
-	
+
 }
 
 
