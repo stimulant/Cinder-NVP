@@ -1,0 +1,29 @@
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+*.tlog
+*.sdf
+*.opensdf
+*.pdb
+vc2012/Debug/NVPathText.ilk
+vc2012/Debug/NVPathText.log
+vc2012/Debug/vc110.idb
+vc2012/NVPathText.v11.suo
