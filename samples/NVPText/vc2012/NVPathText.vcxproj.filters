@@ -16,13 +16,13 @@
     <Filter Include="blocks">
       <UniqueIdentifier>{bd72178c-130c-4004-8e02-f6e8420936bd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="blocks\NVPathTextCinder">
+    <Filter Include="blocks\Cinder-NVP">
       <UniqueIdentifier>{9930498c-7fea-4186-8e8b-bb37c705fc24}</UniqueIdentifier>
     </Filter>
-    <Filter Include="blocks\NVPathTextCinder\include">
+    <Filter Include="blocks\Cinder-NVP\include">
       <UniqueIdentifier>{48d0dd96-85a6-4a73-ad37-c42c40fae92e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="blocks\NVPathTextCinder\src">
+    <Filter Include="blocks\Cinder-NVP\src">
       <UniqueIdentifier>{8bf16ab7-ce50-4a33-8c94-2cd759bb03c5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -37,10 +37,10 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClCompile Include="..\..\..\src\src\NVPFont.cpp">
-      <Filter>blocks\NVPathTextCinder\src</Filter>
+      <Filter>blocks\Cinder-NVP\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\src\NVPTextBox.cpp">
-      <Filter>blocks\NVPathTextCinder\src</Filter>
+      <Filter>blocks\Cinder-NVP\src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -48,10 +48,10 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\include\NVPFont.h">
-      <Filter>blocks\NVPathTextCinder\include</Filter>
+      <Filter>blocks\Cinder-NVP\include</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\include\NVPTextBox.h">
-      <Filter>blocks\NVPathTextCinder\include</Filter>
+      <Filter>blocks\Cinder-NVP\include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

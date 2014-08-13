@@ -45,18 +45,6 @@ namespace cinder {
 		Alignment			getAlignment() const { return mAlign; }
 		void				setAlignment( Alignment align ) { mAlign = align; mInvalid = true; }
 
-		NVPTextBox&		backgroundColor( ColorA bgColor ) { setBackgroundColor( bgColor ); return *this; }
-		ColorA				getBackgroundColor() const { return mBackgroundColor; }
-		void				setBackgroundColor( ColorA bgColor ) { mBackgroundColor = bgColor; }
-
-		NVPTextBox&			premultiplied( bool premult = true ) { setPremultiplied( premult ); return *this; }
-		bool				getPremultiplied() const { return mPremultiplied; }
-		void				setPremultiplied( bool premult ) { mPremultiplied = premult; }
-
-		NVPTextBox&			ligate( bool ligateText = true ) { setLigate( ligateText ); return *this; }
-		bool				getLigate() const { return mLigate; }
-		void				setLigate( bool ligateText ) { mLigate = ligateText; }
-
 		void				draw( Vec2f offset = Vec2f::zero() );
 		void				render();
 		void				setFont(std::string pSystemFontName, int pFontSize);
@@ -69,7 +57,7 @@ namespace cinder {
 		void				setFilling(bool pFill){ mFilling = pFill; }
 		void				setUnderline(bool pUnder){ mUnderline = pUnder; }
 
-		void				setFont(NVPFontRef pFont){ mFont = pFont; mInvalid = true;}
+		void				setFont(const NVPFontRef &pFont){ mFont = pFont; mInvalid = true;}
 		void				setFontPt(float pSize){ mFontPt = pSize;}
 		float				getFontPt(){ return mFontPt; }
 		void				setDebugDraw(bool pDraw){ mDebugDraw = pDraw; }

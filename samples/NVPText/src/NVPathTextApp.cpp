@@ -1,5 +1,4 @@
 ﻿#include "cinder/app/AppBasic.h"
-#include "cinder/Arcball.h"
 #include "cinder/Rand.h"
 #include "NVPTextBox.h"
 #include "NVPFont.h"
@@ -18,24 +17,14 @@ class NVPathTextApp : public AppBasic {
 public:	
 	void prepareSettings( Settings* settings );
 	void setup();
-	void resize();
-	void mouseDown( MouseEvent event );
-	void mouseDrag( MouseEvent event );
-	void keyDown( KeyEvent event );
 	void draw();
 	void update();
 
-	Arcball		mArcball;
-	Vec2i		mInitialMouseDown, mCurrentMouseDown;
-	bool		mDrawVerbose;
-	bool		mUseConstraintAxis;
-	Vec3f		mConstraintAxis;
-
 	std::vector<NVPTextBoxRef>		mTexts;
-	NVPTextBoxRef		mText2;
+	NVPTextBoxRef					mText2;
 
 	bool		mSetup;
-	ci::params::InterfaceGl				mParams;
+	ci::params::InterfaceGl			mParams;
 
 	Vec2f		mPos;
 	float		mScale;
@@ -43,8 +32,9 @@ public:
 	float		mStrokeWidth;
 	bool		mFill;
 	bool		mUnderline;
-	NVPFontRef mFont;
+	
 	bool		mDebugFonts;
+	NVPFontRef mFont;
 	NVPFontRef mFont2;
 
 	std::vector<ci::gl::Texture>		mTexs;
@@ -63,12 +53,10 @@ void NVPathTextApp::setup()
 	mStrokeWidth = .05f;
 	mUnderline = true;
 	mDebugFonts = true;
-	//ci::gl::initializeGlew();
 	gl::enableAlphaBlending();
 	gl::enableDepthRead();
 	gl::enableDepthWrite();
-	mUseConstraintAxis = false;
-	mCurrentMouseDown = mInitialMouseDown = Vec2i( 200, 200 );
+	
 	//hack because nvidia path rendering won't work in setup with glew not initialized?
 	timeline().add( [this] {
 		mFont = NVPFont::create(std::string("Arial"));
@@ -82,12 +70,12 @@ void NVPathTextApp::setup()
 			mTexts.push_back(mText);
 		}
 		mFont2 = NVPFont::create(std::string("Pacifico"));
-		//mFont2->setIsOTF(true);
 		mText2 = NVPTextBox::create();
 		mText2->setText("james Bass");
 		mText2->setFont(mFont2);
 		mText2->setDebugDraw(true);
 		mText2->setFontPt(200);
+
 		//display Cinder textbox
 		for(int i=60; i>5; i-=10){
 			gl::TextureFont::Format f;
@@ -98,8 +86,6 @@ void NVPathTextApp::setup()
 			layout.addLine( "Hello Cinder!" );
 			mTexs.push_back(gl::Texture( layout.render(true,false) ));
 		}
-
-
 		mSetup = true;
 	},timeline().getCurrentTime()+.01f);
 
@@ -117,48 +103,9 @@ void NVPathTextApp::setup()
 
 }
 
-void NVPathTextApp::resize()
-{
-	mArcball.setWindowSize( getWindowSize() );
-	mArcball.setCenter( getWindowCenter() );
-	mArcball.setRadius( 150 );
-}
-
-void NVPathTextApp::mouseDown( MouseEvent event )
-{
-	mArcball.mouseDown( event.getPos() );
-	mCurrentMouseDown = mInitialMouseDown = event.getPos();
-}
-
-void NVPathTextApp::mouseDrag( MouseEvent event )
-{
-	mArcball.mouseDrag( event.getPos() );
-	mCurrentMouseDown = event.getPos();
-}
-
-void NVPathTextApp::keyDown( KeyEvent event )
-{
-	if( event.getChar() == 'v' )
-		mDrawVerbose = ! mDrawVerbose;
-	else if( event.getChar() == 'c' ) {
-		mUseConstraintAxis = ! mUseConstraintAxis;
-		if( mUseConstraintAxis ) {
-			// make a random constraint axis
-			mConstraintAxis = Rand::randVec3f();
-			mArcball.setConstraintAxis( mConstraintAxis );
-		}
-		else
-			mArcball.setNoConstraintAxis();
-	}
-}
 void NVPathTextApp::update()
 {
 	if(mSetup){
-		/*mFont->setStrokeWidth(mStrokeWidth);
-		mText->setUnderline(mUnderline);
-		mText->setFilling(mFill);
-		mText->setKerning(mKerning);
-		mText->setDebugDraw(mDebugFonts);*/
 		mFont2->setStrokeWidth(mStrokeWidth);
 		mText2->setKerning(mKerning);
 		mText2->setUnderline(mUnderline);
@@ -191,12 +138,9 @@ void NVPathTextApp::draw()
 			if(mTex)
 				gl::translate(0,60);
 			gl::draw(mTex);
-
 		}
 		mParams.draw();
 	}
-
 }
-
 
 CINDER_APP_BASIC( NVPathTextApp, RendererGl(RendererGl::AA_MSAA_32 ))
