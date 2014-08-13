@@ -1,8 +1,6 @@
 #pragma once
 #include "cinder/Cinder.h"
-
 #include <string>
-
 #include "cinder\gl\gl.h"
 
 
@@ -44,7 +42,7 @@ namespace cinder {
 		}
 
 		NVPFont(std::string fontName = "Arial");
-		GLfloat	getGlyphs(){ return glyphBase; }
+		GLuint	getGlyphs(){ return glyphBase; }
 		FontMetrics getFontMetrics(){ return mFontMetrics; }
 		GlyphMetricsRef getGlyphMetrics(){ return mGlyphMetrics; }
 		void			setStrokeWidth(float pWidth){ mStrokeWidth = pWidth; createGlyphs(); }
