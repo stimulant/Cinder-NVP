@@ -39,6 +39,9 @@
     <ClCompile Include="..\src\NVPBasicTextSampleApp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClInclude Include="..\..\..\src\include\NVPInit.h">
+      <Filter>blocks\Cinder-NVP\include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h">
@@ -55,5 +58,10 @@
     <ResourceCompile Include="Resources.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\src\NVPInit.cpp">
+      <Filter>blocks\Cinder-NVP\src</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
