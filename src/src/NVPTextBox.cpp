@@ -123,8 +123,7 @@ void	NVPTextBox::draw( Vec2f offset )
 				GL_BOUNDING_BOX_OF_BOUNDING_BOXES_NV,
 				GL_TRANSLATE_X_NV, xtranslate);
 		}
-		ci::app::console()<<"glyphbase "<< mFont->getGlyphs() << endl;
-
+		
 		if (mFilling) {
 			/* STEP 1: stencil message into stencil buffer.  Results in samples
 			within the message's glyphs to have a non-zero stencil value. */

@@ -110,6 +110,7 @@
     <ClCompile Include="..\..\..\src\src\NVPFont.cpp" />
     <ClCompile Include="..\..\..\src\src\NVPInit.cpp" />
     <ClCompile Include="..\..\..\src\src\NVPTextBox.cpp" />
+    <ClCompile Include="..\src\cinder\app\AppImplMswRendererGl.cpp" />
     <ClCompile Include="..\src\NVPBasicTextSampleApp.cpp" />
   </ItemGroup>
   <ItemGroup>
