@@ -48,6 +48,7 @@ void NVPBasicTextSampleApp::prepareSettings( Settings* settings )
 }
 void NVPBasicTextSampleApp::setup()
 {
+	initializeNVPR("");
 	mSetup = false;
 	mFill = true;
 	mStrokeWidth = .05f;
