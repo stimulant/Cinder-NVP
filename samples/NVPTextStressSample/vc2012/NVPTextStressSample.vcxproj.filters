@@ -25,14 +25,14 @@
     <Filter Include="blocks\Cinder-NVP\src">
       <UniqueIdentifier>{8bf16ab7-ce50-4a33-8c94-2cd759bb03c5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\cinder">
+      <UniqueIdentifier>{4c281638-81ab-4adf-a366-7928f6b7eff4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\cinder\app">
+      <UniqueIdentifier>{faa53a54-a6f9-4c15-8f8c-44e4ceb2cc07}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\NVPathTextApp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\NVPathTextApp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClInclude Include="..\include\Resources.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -42,6 +42,9 @@
     <ClCompile Include="..\..\..\src\src\NVPTextBox.cpp">
       <Filter>blocks\Cinder-NVP\src</Filter>
     </ClCompile>
+    <ClInclude Include="..\..\..\src\include\NVPInit.h">
+      <Filter>blocks\Cinder-NVP\include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h">
@@ -58,5 +61,16 @@
     <ResourceCompile Include="Resources.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\src\NVPInit.cpp">
+      <Filter>blocks\Cinder-NVP\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\cinder\app\AppImplMswRendererGl.cpp">
+      <Filter>Source Files\cinder\app</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\NVPTextStressSample.cpp">
+      <Filter>Source Files\cinder</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

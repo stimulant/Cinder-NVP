@@ -33,3 +33,5 @@ samples/NVPText/vc2012/Debug/vc110.idb
 *.ilk
 *.idb
 *.lastbuildstate
+*.map
+*.suo
