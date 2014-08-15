@@ -37,7 +37,7 @@ namespace cinder {
 
 		NVPTextBox&		text( const std::string &t ) { setText( t ); return *this; }
 		const std::string&	getText() const { return mText; }
-		void				setText( const std::string &t ) { mText = t; mInvalid = true; }
+		virtual void				setText( const std::string &t ) { mText = t; mInvalid = true; }
 		void				appendText( const std::string &t ) { mText += t; mInvalid = true; }
 
 
@@ -47,7 +47,6 @@ namespace cinder {
 
 		void				draw( Vec2f offset = Vec2f::zero() );
 		void				render();
-		void				setFont(std::string pSystemFontName, int pFontSize);
 		ColorA				getFillColor(){ return mFillColor; }
 		void				setFillColor(ColorA pCol){ mFillColor = pCol; }
 		ColorA				getStrokeColor(){ return mStrokeColor; }
@@ -60,7 +59,7 @@ namespace cinder {
 		void				setFont(const NVPFontRef &pFont){ mFont = pFont; mInvalid = true;}
 		void				setFontPt(float pSize){ mFontPt = pSize;}
 		float				getFontPt(){ return mFontPt; }
-		void				setDebugDraw(bool pDraw){ mDebugDraw = pDraw; }
+		virtual void				setDebugDraw(bool pDraw){ mDebugDraw = pDraw; }
 		float mScaleVal;
 	protected:
 		Alignment		mAlign;

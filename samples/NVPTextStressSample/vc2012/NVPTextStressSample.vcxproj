@@ -110,6 +110,7 @@
     <ClCompile Include="..\..\..\src\src\NVPFont.cpp" />
     <ClCompile Include="..\..\..\src\src\NVPInit.cpp" />
     <ClCompile Include="..\..\..\src\src\NVPTextBox.cpp" />
+    <ClCompile Include="..\src\Cinder-NVP\NVPTextBoxTest.cpp" />
     <ClCompile Include="..\src\cinder\app\AppImplMswRendererGl.cpp" />
     <ClCompile Include="..\src\NVPTextStressSample.cpp" />
   </ItemGroup>
@@ -117,6 +118,7 @@
     <ClInclude Include="..\..\..\src\include\NVPFont.h" />
     <ClInclude Include="..\..\..\src\include\NVPInit.h" />
     <ClInclude Include="..\..\..\src\include\NVPTextBox.h" />
+    <ClInclude Include="..\include\Cinder-NVP\NVPTextBoxTest.h" />
     <ClInclude Include="..\include\Resources.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

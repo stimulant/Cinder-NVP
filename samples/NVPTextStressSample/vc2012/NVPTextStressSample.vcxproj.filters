@@ -31,6 +31,12 @@
     <Filter Include="Source Files\cinder\app">
       <UniqueIdentifier>{faa53a54-a6f9-4c15-8f8c-44e4ceb2cc07}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Cinder-NVP">
+      <UniqueIdentifier>{1c8e6f73-9a29-4ecb-9120-10ca6bcc155e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Cinder-NVP">
+      <UniqueIdentifier>{2e0db91e-f623-4317-8d9e-be68e77717ed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h">
@@ -44,6 +50,9 @@
     </ClCompile>
     <ClInclude Include="..\..\..\src\include\NVPInit.h">
       <Filter>blocks\Cinder-NVP\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Cinder-NVP\NVPTextBoxTest.h">
+      <Filter>Header Files\Cinder-NVP</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -70,7 +79,10 @@
       <Filter>Source Files\cinder\app</Filter>
     </ClCompile>
     <ClCompile Include="..\src\NVPTextStressSample.cpp">
-      <Filter>Source Files\cinder</Filter>
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Cinder-NVP\NVPTextBoxTest.cpp">
+      <Filter>Source Files\Cinder-NVP</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

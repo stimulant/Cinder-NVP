@@ -1,6 +1,6 @@
 ﻿#include "cinder/app/AppBasic.h"
 #include "cinder/Rand.h"
-#include "NVPTextBox.h"
+#include "Cinder-NVP\NVPTextBoxTest.h"
 #include "NVPFont.h"
 #include "cinder/params/Params.h"
 #include "cinder/Timeline.h"
@@ -14,7 +14,7 @@ using namespace ci;
 using namespace ci::app;
 using namespace std;
 
-#define NUM_TEXT 35000
+#define NUM_TEXT 15000
 
 class NVPTextStressSampleApp : public AppBasic {
 public:	
@@ -23,7 +23,7 @@ public:
 	void draw();
 	void update();
 
-	std::vector<NVPTextBoxRef>		mTexts;
+	std::vector<NVPTextBoxTestRef>		mTexts;
 
 	bool		mSetup;
 	ci::params::InterfaceGl			mParams;
@@ -44,6 +44,8 @@ public:
 	float scalemin;
 	float scalemax;
 	float scalespeed;
+
+	float mScaleVal;
 };
 void NVPTextStressSampleApp::prepareSettings( Settings* settings )
 {
@@ -69,7 +71,7 @@ void NVPTextStressSampleApp::setup()
 		mFont = NVPFont::create(std::string("Futura Lt BT"));
 
 		for(int i=0; i<NUM_TEXT; i++){
-			NVPTextBoxRef mText = NVPTextBox::create();
+			NVPTextBoxTestRef mText = NVPTextBoxTest::create();
 			mText->setText(randInt(0,2) == 0 ? "0" : "1");
 			mText->setFont(mFont);
 			mText->setDebugDraw(false);
@@ -79,13 +81,13 @@ void NVPTextStressSampleApp::setup()
 		
 		mSetup = true;
 	},timeline().getCurrentTime()+.01f);
-	xWidth = 10;
+	xWidth = 8;
 	yWidth = 12;
 	scalemin = 1;
 	scalemax = 120;
 	scalespeed = .5f;
-	mPos = Vec2f(645.f,313.f);
-	mScale = 1.f;
+	mPos = Vec2f(645.f,-228.f);
+	mScaleVal = 3.f;
 
 	mParams = ci::params::InterfaceGl( "Parameters", Vec2i( 250, 500 ) );
 	mKerning = 1.00f;
@@ -99,8 +101,7 @@ void NVPTextStressSampleApp::setup()
 	mParams.addParam( "stroke width", &mStrokeWidth,"min=0.0000 max=2.000 step=.001" );
 	mParams.addParam( "xwidth", &xWidth );
 	mParams.addParam( "ywidth", &yWidth );
-	mParams.addParam( "scalemin", &scalemin );
-	mParams.addParam("scalemax", &scalemax);
+	mParams.addParam( "scale", &mScaleVal ).step(.01);
 	mParams.addParam("scalespeed", &scalespeed).step(.01);
 }
 
@@ -124,47 +125,50 @@ void NVPTextStressSampleApp::draw()
 		int yOffset = 0;
 		int xOffset = 0;
 		gl::translate(mPos.x,mPos.y);
-		float scaleval = ((sin(getElapsedSeconds()*scalespeed)+1)*scalemax)+scalemin;
-		
-		//gl::scale(1,1,1);
-		gl::scale(scaleval,scaleval,scaleval);
+		gl::scale(mScaleVal,mScaleVal,mScaleVal);
 		gl::translate(-mPos.x,-mPos.y);
-		int twidth = 1920*1.4;
+		int twidth = 1920;
 		char c[256];
 		string txt;
+		int textInd = 0;
 		for(auto mText : mTexts){
-			int index = randInt(0,9);
-
-			switch(index) {
-				case 0:
-					txt = "9";
-					break;
-				case 1:
-					txt = "0";
-					break;
-				case 2:
-					txt = "9";
-					break;
-				case 3:
-					txt = "8";
-					break;
-				case 4:
-					txt = "0";
-					break;
-				case 5:
-					txt = "8";
-					break;
-				case 6:
-					txt = "3";
-					break;
-				case 7:
-					txt = "0";
-					break;
-				case 8:
-					txt = "3";
-					break;
+			
+			if(randInt(0,10) == 0){
+				if(mText->getLife()==0){
+					int index = randInt(0,9);
+					switch(index) {
+						case 0:
+							txt = "9";
+							break;
+						case 1:
+							txt = "0";
+							break;
+						case 2:
+							txt = "9";
+							break;
+						case 3:
+							txt = "8";
+							break;
+						case 4:
+							txt = "0";
+							break;
+						case 5:
+							txt = "8";
+							break;
+						case 6:
+							txt = "3";
+							break;
+						case 7:
+							txt = "0";
+							break;
+						case 8:
+							txt = "3";
+							break;
+					}
+					mText->setText(txt);
+					mText->setLife(100);
+				}
 			}
-			randInt(0,10) == 0 ? mText->setText(txt) : 0;
 			mText->draw(Vec2f(xOffset%twidth,floor(float(xOffset)/twidth)*yWidth));
 			xOffset+=xWidth;
 			yOffset+=yWidth;
@@ -176,4 +180,4 @@ void NVPTextStressSampleApp::draw()
 	}
 }
 
-CINDER_APP_BASIC( NVPTextStressSampleApp, RendererGl(RendererGl::AA_MSAA_32 ))
+CINDER_APP_BASIC( NVPTextStressSampleApp, RendererGl(RendererGl::AA_MSAA_16 ))
