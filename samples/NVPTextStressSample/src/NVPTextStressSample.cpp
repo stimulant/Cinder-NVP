@@ -9,6 +9,7 @@
 #include "cinder/gl/gl.h"
 #include "cinder/gl/Texture.h"
 #include "cinder/Text.h"
+#include "cinder/Utilities.h"
 
 using namespace ci;
 using namespace ci::app;
@@ -22,6 +23,7 @@ public:
 	void setup();
 	void draw();
 	void update();
+	int getRandNum();
 
 	std::vector<NVPTextBoxTestRef>		mTexts;
 
@@ -112,6 +114,27 @@ void NVPTextStressSampleApp::update()
 		
 	}
 }
+int NVPTextStressSampleApp::getRandNum(){
+	int txt;
+	int index = randInt(0,4);
+	switch(index) {
+		case 0:
+			txt = 9;
+			break;
+		case 1:
+			txt = 0;
+			break;
+		
+		case 3:
+			txt = 8;
+			break;
+		case 4:
+			txt = 3;
+			break;
+		
+	}
+	return txt;
+}
 void NVPTextStressSampleApp::draw()
 {
 	gl::clear( Color( 0, 0.1f, 0.2f ) );
@@ -131,45 +154,24 @@ void NVPTextStressSampleApp::draw()
 		char c[256];
 		string txt;
 		int textInd = 0;
-		for(auto mText : mTexts){
+		vector<NVPTextBoxTestRef> lastSix;
+		//for(int j=0; j<6;j++){
+		//		lastSix.push_back(mTexts[i-j]);
+		//	}
+		lastSix[0]
+		for(int i=0;i < NUM_TEXT; i+=1){
 			
-			if(randInt(0,10) == 0){
-				if(mText->getLife()==0){
-					int index = randInt(0,9);
-					switch(index) {
-						case 0:
-							txt = "9";
-							break;
-						case 1:
-							txt = "0";
-							break;
-						case 2:
-							txt = "9";
-							break;
-						case 3:
-							txt = "8";
-							break;
-						case 4:
-							txt = "0";
-							break;
-						case 5:
-							txt = "8";
-							break;
-						case 6:
-							txt = "3";
-							break;
-						case 7:
-							txt = "0";
-							break;
-						case 8:
-							txt = "3";
-							break;
-					}
-					mText->setText(txt);
-					mText->setLife(100);
+			
+			if(lastSix[0]->getLife()==0){
+				if(randInt(0,10) == 0){
+					int txt = getRandNum();
+					
+					->setText(toString(txt));
+					lastSix[0]->setLife(100);
 				}
 			}
-			mText->draw(Vec2f(xOffset%twidth,floor(float(xOffset)/twidth)*yWidth));
+			
+			lastSix[0]->draw(Vec2f(xOffset%twidth,floor(float(xOffset)/twidth)*yWidth));
 			xOffset+=xWidth;
 			yOffset+=yWidth;
 		}
@@ -180,4 +182,4 @@ void NVPTextStressSampleApp::draw()
 	}
 }
 
-CINDER_APP_BASIC( NVPTextStressSampleApp, RendererGl(RendererGl::AA_MSAA_16 ))
+CINDER_APP_BASIC( NVPTextStressSampleApp, RendererGl(RendererGl::AA_MSAA_4 ))
