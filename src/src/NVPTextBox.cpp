@@ -29,8 +29,7 @@ NVPTextBox::NVPTextBox() : mAlign( LEFT ), mSize( GROW, GROW ), mInvalid( true )
 }
 void NVPTextBox::render(){
 
-	const unsigned char *message_ub = (const unsigned char*)mText.c_str();
-
+	
 	/* Query spacing information for example's message. */
 	mMessageLen = strlen(mText.c_str());
 	xtranslate = (GLfloat*) malloc(sizeof(GLfloat)*mMessageLen);
@@ -39,8 +38,6 @@ void NVPTextBox::render(){
 		exit(1);
 	}
 	xtranslate[0] = 0.0;  /* Initial xtranslate is zero. */
-
-	GLboolean isPath = glIsPathNV(mFont->getGlyphs());
 
 	GLfloat advanceScale = 1.0f*mKerningFactor,
 		kerningScale = 1.0f*mKerningFactor; /* Set this to zero to ignore kerning. */
@@ -55,6 +52,8 @@ void NVPTextBox::render(){
 	/* Total advance is accumulated spacing plus horizontal advance of
 	the last glyph */
 	float lastX = xtranslate[mMessageLen-1];
+	const unsigned char *message_ub = (const unsigned char*)mText.c_str();
+
 	int charIndex = message_ub[mMessageLen-1];
 	float totalLen = mFont->getGlyphMetrics()->mHorizontalAdvance[charIndex];
 	mTotalAdvance = lastX + totalLen;
