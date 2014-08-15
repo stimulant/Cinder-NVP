@@ -80,9 +80,6 @@ void	NVPTextBox::draw( Vec2f offset )
 		glStencilFunc(GL_NOTEQUAL, 0, ~0);
 		glStencilOp(GL_KEEP, GL_KEEP, GL_ZERO);
 
-		// glClearStencil(0);
-		//glClearColor(0,0,0,0);
-		//glClearColor(0.2f,0.2f,0.8f,0);
 		glStencilMask(0xFFFFFFFF);
 		gl::pushMatrices();
 		gl::translate(offset);

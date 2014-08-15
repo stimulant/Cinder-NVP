@@ -10,12 +10,13 @@
 #include "cinder/gl/Texture.h"
 #include "cinder/Text.h"
 #include "cinder/Utilities.h"
+#include "Globals.h"
 
 using namespace ci;
 using namespace ci::app;
 using namespace std;
 
-#define NUM_TEXT 25000
+#define NUM_TEXT 12000
 
 class NVPTextStressSampleApp : public AppBasic {
 public:	
@@ -30,7 +31,7 @@ public:
 	bool		mSetup;
 	ci::params::InterfaceGl			mParams;
 
-	Vec2f		mPos;
+	ci::Anim<Vec2f>		mPos;
 	float		mScale;
 	float		mKerning;
 	float		mStrokeWidth;
@@ -47,11 +48,16 @@ public:
 	float scalemin;
 	float scalemax;
 	float scalespeed;
+	float xWrap;
 
-	float mScaleVal;
+	ci::Anim<float> mScaleVal;
+	float			mScaleParam;
+	Vec3f			mPosParam;
 
-	int mMaxLife;
 	int mRandSpeed;
+	
+    Globals*							mGlobals;
+
 };
 void NVPTextStressSampleApp::prepareSettings( Settings* settings )
 {
@@ -63,6 +69,9 @@ void NVPTextStressSampleApp::prepareSettings( Settings* settings )
 void NVPTextStressSampleApp::setup()
 {
 	initializeNVPR("");
+
+    mGlobals = new Globals();
+	
 	mSetup = false;
 	mFill = true;
 	mStrokeWidth = .05f;
@@ -78,7 +87,7 @@ void NVPTextStressSampleApp::setup()
 		mFont2 = NVPFont::create(std::string("Lato Medium"));
 		for(int i=0; i<NUM_TEXT; i++){
 			NVPTextBoxTestRef mText = NVPTextBoxTest::create();
-			mText->setText(randInt(0,2) == 0 ? "0" : "1");
+			mText->setText(getRandNum());
 			mText->setFont(mFont);
 			mText->setDebugDraw(false);
 			mText->setFontPt(float(20));
@@ -87,18 +96,20 @@ void NVPTextStressSampleApp::setup()
 		
 		mSetup = true;
 	},timeline().getCurrentTime()+.01f);
-	xWidth = 8;
-	yWidth = 12;
+	xWidth = 10;
+	yWidth = 13;
 	scalespeed = .5f;
-	mPos = Vec2f(643,78.f);
-	mScaleVal = 15.1f;
-	mMaxLife = 70;
+	mPos = Vec2f(0.f,303.f);
+	mPosParam = Vec3f(0,303.f,0);
+	mScaleParam = 70.f;
+	mScaleVal = 70.f;
 	mParams = ci::params::InterfaceGl( "Parameters", Vec2i( 250, 500 ) );
 	mKerning = 1.00f;
-	mRandSpeed = 8;
+	mRandSpeed = 2;
+	xWrap = 1692;
 	mParams.addParam( "fps", &mFps);
-	mParams.addParam( "posx", &mPos.x );
-	mParams.addParam( "posy", &mPos.y );
+	//mParams.addParam( "posx", &mPos.x ).step(.1);
+	//mParams.addParam( "posy", &mPos.y ).step(.1);
 	mParams.addParam( "kerning", &mKerning,"min=0.0000 max=2.000 step=.0001" );
 	mParams.addParam( "fill", &mFill);
 	mParams.addParam( "underline", &mUnderline);
@@ -106,10 +117,22 @@ void NVPTextStressSampleApp::setup()
 	mParams.addParam( "stroke width", &mStrokeWidth,"min=0.0000 max=2.000 step=.001" );
 	mParams.addParam( "xwidth", &xWidth );
 	mParams.addParam( "ywidth", &yWidth );
-	mParams.addParam( "mMaxLife", &mMaxLife).min(0).max(100).step(1);
+	mParams.addParam( "mMaxLife", &Globals::get()->maxLife).min(0).max(100).step(1);
 	mParams.addParam( "mRandSpeed", &mRandSpeed );
-	mParams.addParam( "scale", &mScaleVal ).step(.1);
-	mParams.addParam("scalespeed", &scalespeed).step(.01);
+	mParams.addParam( "scale", &mScaleParam ).step(.1).updateFn( [this] { mScaleVal = mScaleParam; } );
+	mParams.addParam( "pos", &mPosParam ).step(1).updateFn( [this] { mPos = Vec2f(mPosParam.x,mPosParam.y); } );
+	mParams.addParam("lifeColor r", &Globals::get()->lifeColor.r).step(.01);
+	mParams.addParam("lifeColor g", &Globals::get()->lifeColor.g).step(.01);
+	mParams.addParam("lifeColor b", &Globals::get()->lifeColor.b).step(.01);
+	mParams.addParam("lifetime", &Globals::get()->maxLife).step(.01);
+	mParams.addParam("hueSpread", &Globals::get()->hueSpread).step(.01);
+	mParams.addParam("satSpread", &Globals::get()->satSpread).step(.01);
+	mParams.addParam("valSpread", &Globals::get()->valSpread).step(.01);
+	mParams.addParam("xwrap", &xWrap).step(1);
+	
+	timeline().apply( &mPos, Vec2f(500,0.f), 30, ci::EaseInOutQuad() );
+	timeline().apply( &mScaleVal, 1.2f, 12.f, ci::EaseOutQuint() ).delay(5);
+
 }
 
 void NVPTextStressSampleApp::update()
@@ -136,21 +159,13 @@ string NVPTextStressSampleApp::getRandNum(){
 		case 3:
 			txt = "3";
 			break;
-		case 4:
-			txt = "$";
-			break;
-		
-		case 5:
-			txt = "#";
-			break;
-		
 	}
 	return txt;
 	
 }
 void NVPTextStressSampleApp::draw()
 {
-	gl::clear( Color( 0, 0.1f, 0.2f ) );
+	gl::clear( Color( 0, 0.0f, 0.0f ) );
 
 	if(mSetup){
 		gl::setViewport( getWindowBounds() );
@@ -160,10 +175,10 @@ void NVPTextStressSampleApp::draw()
 		int i = 0;
 		int yOffset = 0;
 		int xOffset = 0;
-		gl::translate(mPos.x,mPos.y);
+		gl::translate(mPos.value().x,mPos.value().y);
 		gl::scale(mScaleVal,mScaleVal,mScaleVal);
-		gl::translate(-mPos.x,-mPos.y);
-		int twidth = 1920;
+		gl::translate(-mPos.value().x,-mPos.value().y);
+		int twidth = floor(xWrap/xWidth)*xWidth;
 		char c[256];
 		string txt;
 		int textInd = 0;
@@ -186,9 +201,9 @@ void NVPTextStressSampleApp::draw()
 										NVPTextBoxTestRef tNext = mTexts[i+1];
 										if(tNext->getLife()==0 && tNext->getProcessing()==true){
 											if(tNext->getText()==tLast->getText()){
-												tText->setLife(mMaxLife);
-												tLast->setLife(mMaxLife);
-												tNext->setLife(mMaxLife);
+												tText->setLife(Globals::get()->maxLife);
+												tLast->setLife(Globals::get()->maxLife);
+												tNext->setLife(Globals::get()->maxLife);
 												tText->setFont(mFont2);
 												tLast->setFont(mFont2);
 												tNext->setFont(mFont2);
@@ -223,4 +238,4 @@ void NVPTextStressSampleApp::draw()
 	}
 }
 
-CINDER_APP_BASIC( NVPTextStressSampleApp, RendererGl(RendererGl::AA_MSAA_4 ))
+CINDER_APP_BASIC( NVPTextStressSampleApp, RendererGl(RendererGl::AA_MSAA_16 ))

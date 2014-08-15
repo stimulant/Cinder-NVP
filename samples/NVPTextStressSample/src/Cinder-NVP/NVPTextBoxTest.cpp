@@ -2,6 +2,7 @@
 
 #include "Cinder-NVP\NVPTextBoxTest.h"
 #include "cinder/app/App.h"
+#include "Globals.h"
 using namespace std;
 using namespace cinder;
 using namespace app;
@@ -9,8 +10,8 @@ using namespace app;
 namespace cinder {
 
 static const float DPI = 72.f;
-// : mAlign( LEFT ), mSize( GROW, GROW ), mInvalid( true ),mDebugDraw(false),mUnderline(false), mFontPt(12),sRGB_capable(0),hasFramebufferSRGB(1),emScale(2048),mFilling(1),mRegularAspect(1),mFillGradient(1),mFillColor( 1, 1, 1, 1 ),mStrokeColor( 0.f, 0.f, 0.f, 1 ), mKerningFactor(1.f), mDrawBoundingBox(false),mDrawGlyphBounds(false),mBackgroundColor( 0, 0, 0, 0 ), mPremultiplied( false ), mLigate( true )
-NVPTextBoxTest::NVPTextBoxTest() : mLife(0) {
+
+NVPTextBoxTest::NVPTextBoxTest() : mLife(0),mProcessing(true) {
 	NVPTextBox::NVPTextBox();
 }
 void	NVPTextBoxTest::draw( Vec2f offset )
@@ -79,8 +80,10 @@ void	NVPTextBoxTest::draw( Vec2f offset )
 				GL_PATH_FILL_MODE_NV, ~0,  /* Use all stencil bits */
 				GL_TRANSLATE_X_NV, xtranslate);
 
-			Color fill = Color(mFillColor.r,mFillColor.g,mFillColor.b)*(mLife/10.f);
-			
+			float mix = fmod(Globals::get()->lifeColor.r + Globals::get()->hueSpread*(mLife/Globals::get()->maxLife),1);
+			float mix2 = fmod(Globals::get()->lifeColor.g + Globals::get()->satSpread*(mLife/Globals::get()->maxLife),1);
+			float mix3= fmod(Globals::get()->lifeColor.b + Globals::get()->valSpread*(mLife/Globals::get()->maxLife),1);
+			Color fill = Color(CM_HSV, mix,mix2,mix3 );
 			if(mLife>0){
 				mLife-=1;
 				//console()<<"mLife "<<mLife<< endl;

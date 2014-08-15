@@ -54,6 +54,9 @@
     <ClInclude Include="..\include\Cinder-NVP\NVPTextBoxTest.h">
       <Filter>Header Files\Cinder-NVP</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\Globals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h">
@@ -83,6 +86,9 @@
     </ClCompile>
     <ClCompile Include="..\src\Cinder-NVP\NVPTextBoxTest.cpp">
       <Filter>Source Files\Cinder-NVP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Globals.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
