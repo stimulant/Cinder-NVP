@@ -15,7 +15,7 @@ using namespace ci;
 using namespace ci::app;
 using namespace std;
 
-#define NUM_TEXT 15000
+#define NUM_TEXT 25000
 
 class NVPTextStressSampleApp : public AppBasic {
 public:	
@@ -48,6 +48,9 @@ public:
 	float scalespeed;
 
 	float mScaleVal;
+
+	int mMaxLife;
+	int mRandSpeed;
 };
 void NVPTextStressSampleApp::prepareSettings( Settings* settings )
 {
@@ -90,9 +93,10 @@ void NVPTextStressSampleApp::setup()
 	scalespeed = .5f;
 	mPos = Vec2f(645.f,-228.f);
 	mScaleVal = 3.f;
-
+	mMaxLife = 10;
 	mParams = ci::params::InterfaceGl( "Parameters", Vec2i( 250, 500 ) );
 	mKerning = 1.00f;
+	mRandSpeed = 3;
 	mParams.addParam( "fps", &mFps);
 	mParams.addParam( "posx", &mPos.x );
 	mParams.addParam( "posy", &mPos.y );
@@ -103,6 +107,8 @@ void NVPTextStressSampleApp::setup()
 	mParams.addParam( "stroke width", &mStrokeWidth,"min=0.0000 max=2.000 step=.001" );
 	mParams.addParam( "xwidth", &xWidth );
 	mParams.addParam( "ywidth", &yWidth );
+	mParams.addParam( "mMaxLife", &mMaxLife );
+	mParams.addParam( "mRandSpeed", &mRandSpeed );
 	mParams.addParam( "scale", &mScaleVal ).step(.01);
 	mParams.addParam("scalespeed", &scalespeed).step(.01);
 }
@@ -124,14 +130,12 @@ int NVPTextStressSampleApp::getRandNum(){
 		case 1:
 			txt = 0;
 			break;
-		
-		case 3:
+		case 2:
 			txt = 8;
 			break;
-		case 4:
+		case 3:
 			txt = 3;
 			break;
-		
 	}
 	return txt;
 }
@@ -154,24 +158,40 @@ void NVPTextStressSampleApp::draw()
 		char c[256];
 		string txt;
 		int textInd = 0;
-		vector<NVPTextBoxTestRef> lastSix;
-		//for(int j=0; j<6;j++){
-		//		lastSix.push_back(mTexts[i-j]);
-		//	}
-		lastSix[0]
+		bool process = ci::randInt(0,mRandSpeed)==0;
+		if(process){
+			for(int i=0;i < NUM_TEXT; i+=1){
+				NVPTextBoxTestRef tText = mTexts[i];
+				if(tText->getLife()==0)
+					tText->setText(toString(getRandNum()));
+			}
+		}
 		for(int i=0;i < NUM_TEXT; i+=1){
-			
-			
-			if(lastSix[0]->getLife()==0){
-				if(randInt(0,10) == 0){
-					int txt = getRandNum();
-					
-					->setText(toString(txt));
-					lastSix[0]->setLife(100);
+			NVPTextBoxTestRef tText = mTexts[i];
+			if(process){
+				if(tText->getLife()==0){
+					if(tText->getText()=="0"){
+						if(xOffset%twidth!=0){
+							NVPTextBoxTestRef tLast = mTexts[i-1];
+							if(tLast->getLife()==0){
+								if(tLast->getText()!="0"){
+									if(xOffset%twidth<twidth && i!=NUM_TEXT-1){
+										NVPTextBoxTestRef tNext = mTexts[i+1];
+										if(tNext->getLife()==0){
+											if(tNext->getText()==tLast->getText()){
+												tText->setLife(mMaxLife);
+												tLast->setLife(mMaxLife);
+												tNext->setLife(mMaxLife);
+											}
+										}
+									}
+								}
+							}
+						}
+					}
 				}
 			}
-			
-			lastSix[0]->draw(Vec2f(xOffset%twidth,floor(float(xOffset)/twidth)*yWidth));
+			tText->draw(Vec2f(xOffset%twidth,floor(float(xOffset)/twidth)*yWidth));
 			xOffset+=xWidth;
 			yOffset+=yWidth;
 		}

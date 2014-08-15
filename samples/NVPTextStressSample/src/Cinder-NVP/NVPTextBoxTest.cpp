@@ -79,7 +79,7 @@ void	NVPTextBoxTest::draw( Vec2f offset )
 				GL_PATH_FILL_MODE_NV, ~0,  /* Use all stencil bits */
 				GL_TRANSLATE_X_NV, xtranslate);
 
-			Color fill = Color(mFillColor.r,mFillColor.g,mFillColor.b)*(mLife/100.f);
+			Color fill = Color(mFillColor.r,mFillColor.g,mFillColor.b)*(mLife/10.f);
 			
 			if(mLife>0){
 				mLife-=1;
