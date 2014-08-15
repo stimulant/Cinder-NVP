@@ -12,11 +12,17 @@
 #include "cinder/Utilities.h"
 #include "Globals.h"
 
+#include "cinder/qtime/MovieWriter.h"
+#include "cinder/qtime/QuickTime.h"
+#include "../include/Resources.h"
+
 using namespace ci;
 using namespace ci::app;
 using namespace std;
 
-#define NUM_TEXT 12000
+#define NUM_TEXT 8000
+
+static const int codec = 1919706400;
 
 class NVPTextStressSampleApp : public AppBasic {
 public:	
@@ -25,6 +31,7 @@ public:
 	void draw();
 	void update();
 	string getRandNum();
+	void startTimeline();
 
 	std::vector<NVPTextBoxTestRef>		mTexts;
 
@@ -54,9 +61,12 @@ public:
 	float			mScaleParam;
 	Vec3f			mPosParam;
 
-	int mRandSpeed;
+	ci::Anim<int> mRandSpeed;
 	
     Globals*							mGlobals;
+
+	
+	qtime::MovieWriterRef	mMovieWriter;
 
 };
 void NVPTextStressSampleApp::prepareSettings( Settings* settings )
@@ -94,10 +104,11 @@ void NVPTextStressSampleApp::setup()
 			mTexts.push_back(mText);
 		}
 		
+		startTimeline();
 		mSetup = true;
 	},timeline().getCurrentTime()+.01f);
-	xWidth = 10;
-	yWidth = 13;
+	xWidth = 14;
+	yWidth = 17;
 	scalespeed = .5f;
 	mPos = Vec2f(0.f,303.f);
 	mPosParam = Vec3f(0,303.f,0);
@@ -106,7 +117,7 @@ void NVPTextStressSampleApp::setup()
 	mParams = ci::params::InterfaceGl( "Parameters", Vec2i( 250, 500 ) );
 	mKerning = 1.00f;
 	mRandSpeed = 2;
-	xWrap = 1692;
+	xWrap = 1695;
 	mParams.addParam( "fps", &mFps);
 	//mParams.addParam( "posx", &mPos.x ).step(.1);
 	//mParams.addParam( "posy", &mPos.y ).step(.1);
@@ -118,7 +129,7 @@ void NVPTextStressSampleApp::setup()
 	mParams.addParam( "xwidth", &xWidth );
 	mParams.addParam( "ywidth", &yWidth );
 	mParams.addParam( "mMaxLife", &Globals::get()->maxLife).min(0).max(100).step(1);
-	mParams.addParam( "mRandSpeed", &mRandSpeed );
+	//mParams.addParam( "mRandSpeed", &mRandSpeed );
 	mParams.addParam( "scale", &mScaleParam ).step(.1).updateFn( [this] { mScaleVal = mScaleParam; } );
 	mParams.addParam( "pos", &mPosParam ).step(1).updateFn( [this] { mPos = Vec2f(mPosParam.x,mPosParam.y); } );
 	mParams.addParam("lifeColor r", &Globals::get()->lifeColor.r).step(.01);
@@ -129,12 +140,30 @@ void NVPTextStressSampleApp::setup()
 	mParams.addParam("satSpread", &Globals::get()->satSpread).step(.01);
 	mParams.addParam("valSpread", &Globals::get()->valSpread).step(.01);
 	mParams.addParam("xwrap", &xWrap).step(1);
+
+	/*fs::path path = getSaveFilePath();
+	if( !path.empty() ){
+		qtime::MovieWriter::Format format;
+		if( qtime::MovieWriter::getUserCompressionSettings( &format ) ) {
+			mMovieWriter = qtime::MovieWriter::create( path, getWindowWidth(), getWindowHeight(), format );
+		}
+	}*/
 	
-	timeline().apply( &mPos, Vec2f(500,0.f), 30, ci::EaseInOutQuad() );
-	timeline().apply( &mScaleVal, 1.2f, 12.f, ci::EaseOutQuint() ).delay(5);
-
 }
+void NVPTextStressSampleApp::startTimeline(){
+	timeline().apply( &mPos, Vec2f(500,0.f), 25, ci::EaseInOutQuad() ).finishFn( [&] {
+		console()<<"mPos first tween done " << endl;
+	});
+	timeline().apply( &mScaleVal, 1.2f, 11.f, ci::EaseInOutQuint() ).delay(3);
+	timeline().apply( &mRandSpeed, 7, 8.f, ci::EaseOutQuint() ).delay(15);
 
+	timeline().appendTo( &mRandSpeed, 14, 1.f, ci::EaseInQuad() );
+	timeline().appendTo( &mRandSpeed, 2, 8.f, ci::EaseInQuad() );
+	timeline().appendTo( &mScaleVal, 60.f, 14.f, ci::EaseInOutQuint() ).delay(13);
+	timeline().appendTo( &mPos, Vec2f(0,303.f), 28, ci::EaseInOutQuad() ).finishFn( [&] {
+		startTimeline();
+	});
+}
 void NVPTextStressSampleApp::update()
 {
 	mFps = getFrameRate();
@@ -233,9 +262,8 @@ void NVPTextStressSampleApp::draw()
 				tText->setProcessing(false);
 		}
 		gl::popMatrices();
-		
-		mParams.draw();
+		//mParams.draw();
 	}
 }
 
-CINDER_APP_BASIC( NVPTextStressSampleApp, RendererGl(RendererGl::AA_MSAA_16 ))
+CINDER_APP_BASIC( NVPTextStressSampleApp, RendererGl(RendererGl::AA_MSAA_8 ))
