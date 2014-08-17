@@ -48,9 +48,6 @@
     <ClCompile Include="..\..\..\src\src\NVPTextBox.cpp">
       <Filter>blocks\Cinder-NVP\src</Filter>
     </ClCompile>
-    <ClInclude Include="..\..\..\src\include\NVPInit.h">
-      <Filter>blocks\Cinder-NVP\include</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\Cinder-NVP\NVPTextBoxTest.h">
       <Filter>Header Files\Cinder-NVP</Filter>
     </ClInclude>
@@ -75,9 +72,6 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\src\NVPInit.cpp">
-      <Filter>blocks\Cinder-NVP\src</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\cinder\app\AppImplMswRendererGl.cpp">
       <Filter>Source Files\cinder\app</Filter>
     </ClCompile>

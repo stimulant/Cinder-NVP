@@ -25,14 +25,18 @@ NVPTextBox::NVPTextBox() : mAlign( LEFT ), mSize( GROW, GROW ), mInvalid( true )
 	GLfloat bias = -1.0f;
 	glPathStencilDepthOffsetNV(slope, bias);
 	glPathCoverDepthFuncNV(GL_ALWAYS);
-
+	xtranslate = NULL;
 }
 void NVPTextBox::render(){
 
 	
 	/* Query spacing information for example's message. */
 	mMessageLen = strlen(mText.c_str());
-	xtranslate = (GLfloat*) malloc(sizeof(GLfloat)*mMessageLen);
+	if(xtranslate != NULL){
+		free(xtranslate);
+		xtranslate = NULL;
+	}
+		xtranslate = (GLfloat*) malloc(sizeof(GLfloat)*mMessageLen);
 	if (!xtranslate) {
 		ci::app::console()<<" malloc of xtranslate failed"<<endl;
 		exit(1);

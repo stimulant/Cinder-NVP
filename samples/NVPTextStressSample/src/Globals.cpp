@@ -13,11 +13,11 @@ Globals::Globals( )
 {
 
     sInstance = this;
-	hueSpread = .6;
-	satSpread = .84;
-	valSpread = .34;
-	lifeColor = Color(CM_HSV,.59,.18,.08);
-	maxLife = 10;
+	hueSpread = 2.28;
+	satSpread = .68;
+	valSpread = .73;
+	lifeColor = Color(CM_HSV,.43,.41,.25);
+	maxLife = 20;
 }
 
 Globals::~Globals()

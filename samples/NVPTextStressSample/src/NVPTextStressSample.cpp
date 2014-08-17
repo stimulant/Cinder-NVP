@@ -20,7 +20,7 @@ using namespace ci;
 using namespace ci::app;
 using namespace std;
 
-#define NUM_TEXT 8000
+#define NUM_TEXT 7000
 
 static const int codec = 1919706400;
 
@@ -71,14 +71,15 @@ public:
 };
 void NVPTextStressSampleApp::prepareSettings( Settings* settings )
 {
-	//settings->setFullScreen( true );
+	settings->setFullScreen( true );
 	settings->setWindowPos(0,0);
 	settings->setBorderless(true);
 	settings->setWindowSize(1920,1080);
+	//hideCursor();
 }
 void NVPTextStressSampleApp::setup()
 {
-	initializeNVPR("");
+	//initializeNVPR("");
 
     mGlobals = new Globals();
 	
@@ -94,30 +95,30 @@ void NVPTextStressSampleApp::setup()
 	//hack because nvidia path rendering won't work in setup with glew not initialized?
 	timeline().add( [this] {
 		mFont = NVPFont::create(std::string("Lato Hairline"));
-		mFont2 = NVPFont::create(std::string("Lato Medium"));
+		mFont2 = NVPFont::create(std::string("Lato Heavy"));
 		for(int i=0; i<NUM_TEXT; i++){
 			NVPTextBoxTestRef mText = NVPTextBoxTest::create();
 			mText->setText(getRandNum());
 			mText->setFont(mFont);
 			mText->setDebugDraw(false);
-			mText->setFontPt(float(20));
+			mText->setFontPt(float(34));
 			mTexts.push_back(mText);
 		}
 		
 		startTimeline();
 		mSetup = true;
 	},timeline().getCurrentTime()+.01f);
-	xWidth = 14;
-	yWidth = 17;
+	xWidth = 15;
+	yWidth = 20;
 	scalespeed = .5f;
 	mPos = Vec2f(0.f,303.f);
 	mPosParam = Vec3f(0,303.f,0);
 	mScaleParam = 70.f;
-	mScaleVal = 70.f;
+	mScaleVal = 90.f;
 	mParams = ci::params::InterfaceGl( "Parameters", Vec2i( 250, 500 ) );
 	mKerning = 1.00f;
-	mRandSpeed = 2;
-	xWrap = 1695;
+	mRandSpeed = 5;
+	xWrap = 2190;
 	mParams.addParam( "fps", &mFps);
 	//mParams.addParam( "posx", &mPos.x ).step(.1);
 	//mParams.addParam( "posy", &mPos.y ).step(.1);
@@ -151,16 +152,16 @@ void NVPTextStressSampleApp::setup()
 	
 }
 void NVPTextStressSampleApp::startTimeline(){
-	timeline().apply( &mPos, Vec2f(500,0.f), 25, ci::EaseInOutQuad() ).finishFn( [&] {
+	timeline().apply( &mPos, Vec2f(0,0), 25, ci::EaseInOutQuad() ).finishFn( [&] {
 		console()<<"mPos first tween done " << endl;
 	});
 	timeline().apply( &mScaleVal, 1.2f, 11.f, ci::EaseInOutQuint() ).delay(3);
-	timeline().apply( &mRandSpeed, 7, 8.f, ci::EaseOutQuint() ).delay(15);
+	timeline().apply( &mRandSpeed, 2, 8.f, ci::EaseOutQuint() ).delay(15);
 
-	timeline().appendTo( &mRandSpeed, 14, 1.f, ci::EaseInQuad() );
-	timeline().appendTo( &mRandSpeed, 2, 8.f, ci::EaseInQuad() );
-	timeline().appendTo( &mScaleVal, 60.f, 14.f, ci::EaseInOutQuint() ).delay(13);
-	timeline().appendTo( &mPos, Vec2f(0,303.f), 28, ci::EaseInOutQuad() ).finishFn( [&] {
+	timeline().appendTo( &mRandSpeed, 8, 4.f, ci::EaseInQuad() );
+	timeline().appendTo( &mRandSpeed, 2, 8.f, ci::EaseInQuad() ).delay(5);
+	timeline().appendTo( &mScaleVal, 45.f, 14.f, ci::EaseInOutQuint() ).delay(13);
+	timeline().appendTo( &mPos, Vec2f(ci::randFloat(300,900),ci::randFloat(300,700)), 28, ci::EaseInOutQuad() ).finishFn( [&] {
 		startTimeline();
 	});
 }
@@ -266,4 +267,4 @@ void NVPTextStressSampleApp::draw()
 	}
 }
 
-CINDER_APP_BASIC( NVPTextStressSampleApp, RendererGl(RendererGl::AA_MSAA_8 ))
+CINDER_APP_BASIC( NVPTextStressSampleApp, RendererGl(RendererGl::AA_MSAA_32 ))

@@ -1,5 +1,5 @@
 #pragma once
-#include "NVPInit.h"
+
 #include "cinder/Cinder.h"
 
 #include "cinder/Surface.h"

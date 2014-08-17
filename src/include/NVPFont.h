@@ -2,7 +2,7 @@
 #include "cinder/Cinder.h"
 #include <string>
 #include "cinder\gl\gl.h"
-#include "NVPInit.h"
+
 
 namespace cinder {
 
