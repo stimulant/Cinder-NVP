@@ -37,25 +37,32 @@
 #define __glee_h_
 
 #ifdef __gl_h_
-	#error gl.h included before GLee.h
+	#error gl.h included before glee.h
 #endif
 
 #ifdef __glext_h_
-	#error glext.h included before GLee.h
+	#error glext.h included before glee.h
 #endif
 
 #ifdef __wglext_h_
-	#error wglext.h included before GLee.h
+	#error wglext.h included before glee.h
 #endif
 
 #ifdef __glxext_h_
-	#error glxext.h included before GLee.h
+	#error glxext.h included before glee.h
 #endif
 
-#ifdef _WIN32
+#if defined(_WIN32) || defined(__WIN32__) || defined(WIN32)
 	#define WIN32_LEAN_AND_MEAN
 	#include <windows.h>
-	#include <GL/gl.h>
+	#undef min
+	#undef max
+	#if defined( CINDER_WINRT )
+		#include "cinder/dx/gldx.h"
+	#else
+		#include <GL/gl.h>
+	#endif
+
 #elif defined(__APPLE__) || defined(__APPLE_CC__)
     #define GL_GLEXT_LEGACY
 	#include <OpenGL/gl.h>
@@ -21786,6 +21793,641 @@ GLEE_EXTERN GLboolean _GLEE_SGIX_igloo_interface;
   GLEE_EXTERN GLEEPFNGLIGLOOINTERFACESGIXPROC GLeeFuncPtr_glIglooInterfaceSGIX;
   #define glIglooInterfaceSGIX GLeeFuncPtr_glIglooInterfaceSGIX
 #endif
+#endif 
+
+/* GL_EXT_fragment_lighting */
+
+#ifndef GL_EXT_fragment_lighting
+#define GL_EXT_fragment_lighting 1
+#define __GLEE_GL_EXT_fragment_lighting 1
+/* Constants */
+#define GL_FRAGMENT_LIGHTING_EXT                           0x8400
+#define GL_FRAGMENT_COLOR_MATERIAL_EXT                     0x8401
+#define GL_FRAGMENT_COLOR_MATERIAL_FACE_EXT                0x8402
+#define GL_FRAGMENT_COLOR_MATERIAL_PARAMETER_EXT           0x8403
+#define GL_MAX_FRAGMENT_LIGHTS_EXT                         0x8404
+#define GL_MAX_ACTIVE_LIGHTS_EXT                           0x8405
+#define GL_CURRENT_RASTER_NORMAL_EXT                       0x8406
+#define GL_LIGHT_ENV_MODE_EXT                              0x8407
+#define GL_FRAGMENT_LIGHT_MODEL_LOCAL_VIEWER_EXT           0x8408
+#define GL_FRAGMENT_LIGHT_MODEL_TWO_SIDE_EXT               0x8409
+#define GL_FRAGMENT_LIGHT_MODEL_AMBIENT_EXT                0x840A
+#define GL_FRAGMENT_LIGHT_MODEL_NORMAL_INTERPOLATION_EXT   0x840B
+#define GL_FRAGMENT_LIGHT0_EXT                             0x840C
+#define GL_FRAGMENT_LIGHT7_EXT                             0x8413
+#ifndef GLEE_H_DEFINED_glFragmentLightModeliEXT
+#define GLEE_H_DEFINED_glFragmentLightModeliEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLFRAGMENTLIGHTMODELIEXTPROC) (GLenum pname, GLint param);
+  GLEE_EXTERN GLEEPFNGLFRAGMENTLIGHTMODELIEXTPROC GLeeFuncPtr_glFragmentLightModeliEXT;
+  #define glFragmentLightModeliEXT GLeeFuncPtr_glFragmentLightModeliEXT
+#endif
+#ifndef GLEE_H_DEFINED_glFragmentLightModelfEXT
+#define GLEE_H_DEFINED_glFragmentLightModelfEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLFRAGMENTLIGHTMODELFEXTPROC) (GLenum pname, GLfloat param);
+  GLEE_EXTERN GLEEPFNGLFRAGMENTLIGHTMODELFEXTPROC GLeeFuncPtr_glFragmentLightModelfEXT;
+  #define glFragmentLightModelfEXT GLeeFuncPtr_glFragmentLightModelfEXT
+#endif
+#ifndef GLEE_H_DEFINED_glFragmentLightModelivEXT
+#define GLEE_H_DEFINED_glFragmentLightModelivEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLFRAGMENTLIGHTMODELIVEXTPROC) (GLenum pname, GLint * params);
+  GLEE_EXTERN GLEEPFNGLFRAGMENTLIGHTMODELIVEXTPROC GLeeFuncPtr_glFragmentLightModelivEXT;
+  #define glFragmentLightModelivEXT GLeeFuncPtr_glFragmentLightModelivEXT
+#endif
+#ifndef GLEE_H_DEFINED_glFragmentLightModelfvEXT
+#define GLEE_H_DEFINED_glFragmentLightModelfvEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLFRAGMENTLIGHTMODELFVEXTPROC) (GLenum pname, GLfloat * params);
+  GLEE_EXTERN GLEEPFNGLFRAGMENTLIGHTMODELFVEXTPROC GLeeFuncPtr_glFragmentLightModelfvEXT;
+  #define glFragmentLightModelfvEXT GLeeFuncPtr_glFragmentLightModelfvEXT
+#endif
+#ifndef GLEE_H_DEFINED_glFragmentLightiEXT
+#define GLEE_H_DEFINED_glFragmentLightiEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLFRAGMENTLIGHTIEXTPROC) (GLenum light, GLenum pname, GLint param);
+  GLEE_EXTERN GLEEPFNGLFRAGMENTLIGHTIEXTPROC GLeeFuncPtr_glFragmentLightiEXT;
+  #define glFragmentLightiEXT GLeeFuncPtr_glFragmentLightiEXT
+#endif
+#ifndef GLEE_H_DEFINED_glFragmentLightfEXT
+#define GLEE_H_DEFINED_glFragmentLightfEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLFRAGMENTLIGHTFEXTPROC) (GLenum light, GLenum pname, GLfloat param);
+  GLEE_EXTERN GLEEPFNGLFRAGMENTLIGHTFEXTPROC GLeeFuncPtr_glFragmentLightfEXT;
+  #define glFragmentLightfEXT GLeeFuncPtr_glFragmentLightfEXT
+#endif
+#ifndef GLEE_H_DEFINED_glFragmentLightivEXT
+#define GLEE_H_DEFINED_glFragmentLightivEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLFRAGMENTLIGHTIVEXTPROC) (GLenum light, GLenum pname, GLint * params);
+  GLEE_EXTERN GLEEPFNGLFRAGMENTLIGHTIVEXTPROC GLeeFuncPtr_glFragmentLightivEXT;
+  #define glFragmentLightivEXT GLeeFuncPtr_glFragmentLightivEXT
+#endif
+#ifndef GLEE_H_DEFINED_glFragmentLightfvEXT
+#define GLEE_H_DEFINED_glFragmentLightfvEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLFRAGMENTLIGHTFVEXTPROC) (GLenum light, GLenum pname, GLfloat * params);
+  GLEE_EXTERN GLEEPFNGLFRAGMENTLIGHTFVEXTPROC GLeeFuncPtr_glFragmentLightfvEXT;
+  #define glFragmentLightfvEXT GLeeFuncPtr_glFragmentLightfvEXT
+#endif
+#ifndef GLEE_H_DEFINED_glGetFragmentLightivEXT
+#define GLEE_H_DEFINED_glGetFragmentLightivEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLGETFRAGMENTLIGHTIVEXTPROC) (GLenum light, GLenum pname, GLint * params);
+  GLEE_EXTERN GLEEPFNGLGETFRAGMENTLIGHTIVEXTPROC GLeeFuncPtr_glGetFragmentLightivEXT;
+  #define glGetFragmentLightivEXT GLeeFuncPtr_glGetFragmentLightivEXT
+#endif
+#ifndef GLEE_H_DEFINED_glGetFragmentLightfvEXT
+#define GLEE_H_DEFINED_glGetFragmentLightfvEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLGETFRAGMENTLIGHTFVEXTPROC) (GLenum light, GLenum pname, GLfloat * params);
+  GLEE_EXTERN GLEEPFNGLGETFRAGMENTLIGHTFVEXTPROC GLeeFuncPtr_glGetFragmentLightfvEXT;
+  #define glGetFragmentLightfvEXT GLeeFuncPtr_glGetFragmentLightfvEXT
+#endif
+#ifndef GLEE_H_DEFINED_glFragmentMaterialfEXT
+#define GLEE_H_DEFINED_glFragmentMaterialfEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLFRAGMENTMATERIALFEXTPROC) (GLenum face, GLenum pname, const GLfloat param);
+  GLEE_EXTERN GLEEPFNGLFRAGMENTMATERIALFEXTPROC GLeeFuncPtr_glFragmentMaterialfEXT;
+  #define glFragmentMaterialfEXT GLeeFuncPtr_glFragmentMaterialfEXT
+#endif
+#ifndef GLEE_H_DEFINED_glFragmentMaterialiEXT
+#define GLEE_H_DEFINED_glFragmentMaterialiEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLFRAGMENTMATERIALIEXTPROC) (GLenum face, GLenum pname, const GLint param);
+  GLEE_EXTERN GLEEPFNGLFRAGMENTMATERIALIEXTPROC GLeeFuncPtr_glFragmentMaterialiEXT;
+  #define glFragmentMaterialiEXT GLeeFuncPtr_glFragmentMaterialiEXT
+#endif
+#ifndef GLEE_H_DEFINED_glFragmentMaterialfvEXT
+#define GLEE_H_DEFINED_glFragmentMaterialfvEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLFRAGMENTMATERIALFVEXTPROC) (GLenum face, GLenum pname, const GLfloat * params);
+  GLEE_EXTERN GLEEPFNGLFRAGMENTMATERIALFVEXTPROC GLeeFuncPtr_glFragmentMaterialfvEXT;
+  #define glFragmentMaterialfvEXT GLeeFuncPtr_glFragmentMaterialfvEXT
+#endif
+#ifndef GLEE_H_DEFINED_glFragmentMaterialivEXT
+#define GLEE_H_DEFINED_glFragmentMaterialivEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLFRAGMENTMATERIALIVEXTPROC) (GLenum face, GLenum pname, const GLint * params);
+  GLEE_EXTERN GLEEPFNGLFRAGMENTMATERIALIVEXTPROC GLeeFuncPtr_glFragmentMaterialivEXT;
+  #define glFragmentMaterialivEXT GLeeFuncPtr_glFragmentMaterialivEXT
+#endif
+#ifndef GLEE_H_DEFINED_glFragmentColorMaterialEXT
+#define GLEE_H_DEFINED_glFragmentColorMaterialEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLFRAGMENTCOLORMATERIALEXTPROC) (GLenum face, GLenum mode);
+  GLEE_EXTERN GLEEPFNGLFRAGMENTCOLORMATERIALEXTPROC GLeeFuncPtr_glFragmentColorMaterialEXT;
+  #define glFragmentColorMaterialEXT GLeeFuncPtr_glFragmentColorMaterialEXT
+#endif
+#ifndef GLEE_H_DEFINED_glGetFragmentMaterialfvEXT
+#define GLEE_H_DEFINED_glGetFragmentMaterialfvEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLGETFRAGMENTMATERIALFVEXTPROC) (GLenum face, GLenum pname, const GLfloat * params);
+  GLEE_EXTERN GLEEPFNGLGETFRAGMENTMATERIALFVEXTPROC GLeeFuncPtr_glGetFragmentMaterialfvEXT;
+  #define glGetFragmentMaterialfvEXT GLeeFuncPtr_glGetFragmentMaterialfvEXT
+#endif
+#ifndef GLEE_H_DEFINED_glGetFragmentMaterialivEXT
+#define GLEE_H_DEFINED_glGetFragmentMaterialivEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLGETFRAGMENTMATERIALIVEXTPROC) (GLenum face, GLenum pname, const GLint * params);
+  GLEE_EXTERN GLEEPFNGLGETFRAGMENTMATERIALIVEXTPROC GLeeFuncPtr_glGetFragmentMaterialivEXT;
+  #define glGetFragmentMaterialivEXT GLeeFuncPtr_glGetFragmentMaterialivEXT
+#endif
+#ifndef GLEE_H_DEFINED_glLightEnviEXT
+#define GLEE_H_DEFINED_glLightEnviEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLLIGHTENVIEXTPROC) (GLenum pname, GLint param);
+  GLEE_EXTERN GLEEPFNGLLIGHTENVIEXTPROC GLeeFuncPtr_glLightEnviEXT;
+  #define glLightEnviEXT GLeeFuncPtr_glLightEnviEXT
+#endif
+#endif 
+
+/* GL_EXT_geometry_shader4 */
+
+#ifndef GL_EXT_geometry_shader4
+#define GL_EXT_geometry_shader4 1
+#define __GLEE_GL_EXT_geometry_shader4 1
+/* Constants */
+#define GL_GEOMETRY_SHADER_EXT                             0x8DD9
+#define GL_GEOMETRY_VERTICES_OUT_EXT                       0x8DDA
+#define GL_GEOMETRY_INPUT_TYPE_EXT                         0x8DDB
+#define GL_GEOMETRY_OUTPUT_TYPE_EXT                        0x8DDC
+#define GL_MAX_GEOMETRY_TEXTURE_IMAGE_UNITS_EXT            0x8C29
+#define GL_MAX_GEOMETRY_VARYING_COMPONENTS_EXT             0x8DDD
+#define GL_MAX_VERTEX_VARYING_COMPONENTS_EXT               0x8DDE
+#define GL_MAX_VARYING_COMPONENTS_EXT                      0x8B4B
+#define GL_MAX_GEOMETRY_UNIFORM_COMPONENTS_EXT             0x8DDF
+#define GL_MAX_GEOMETRY_OUTPUT_VERTICES_EXT                0x8DE0
+#define GL_MAX_GEOMETRY_TOTAL_OUTPUT_COMPONENTS_EXT        0x8DE1
+#define GL_LINES_ADJACENCY_EXT                             0xA
+#define GL_LINE_STRIP_ADJACENCY_EXT                        0xB
+#define GL_TRIANGLES_ADJACENCY_EXT                         0xC
+#define GL_TRIANGLE_STRIP_ADJACENCY_EXT                    0xD
+#define GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS_EXT        0x8DA8
+#define GL_FRAMEBUFFER_INCOMPLETE_LAYER_COUNT_EXT          0x8DA9
+#define GL_FRAMEBUFFER_ATTACHMENT_LAYERED_EXT              0x8DA7
+#define GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LAYER_EXT        0x8CD4
+#define GL_PROGRAM_POINT_SIZE_EXT                          0x8642
+#ifndef GLEE_H_DEFINED_glProgramParameteriEXT
+#define GLEE_H_DEFINED_glProgramParameteriEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLPROGRAMPARAMETERIEXTPROC) (GLuint program, GLenum pname, GLint value);
+  GLEE_EXTERN GLEEPFNGLPROGRAMPARAMETERIEXTPROC GLeeFuncPtr_glProgramParameteriEXT;
+  #define glProgramParameteriEXT GLeeFuncPtr_glProgramParameteriEXT
+#endif
+#ifndef GLEE_H_DEFINED_glFramebufferTextureEXT
+#define GLEE_H_DEFINED_glFramebufferTextureEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLFRAMEBUFFERTEXTUREEXTPROC) (GLenum target, GLenum attachment, GLuint texture, GLint level);
+  GLEE_EXTERN GLEEPFNGLFRAMEBUFFERTEXTUREEXTPROC GLeeFuncPtr_glFramebufferTextureEXT;
+  #define glFramebufferTextureEXT GLeeFuncPtr_glFramebufferTextureEXT
+#endif
+#ifndef GLEE_H_DEFINED_glFramebufferTextureLayerEXT
+#define GLEE_H_DEFINED_glFramebufferTextureLayerEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLFRAMEBUFFERTEXTURELAYEREXTPROC) (GLenum target, GLenum attachment, GLuint texture, GLint level, GLint layer);
+  GLEE_EXTERN GLEEPFNGLFRAMEBUFFERTEXTURELAYEREXTPROC GLeeFuncPtr_glFramebufferTextureLayerEXT;
+  #define glFramebufferTextureLayerEXT GLeeFuncPtr_glFramebufferTextureLayerEXT
+#endif
+#ifndef GLEE_H_DEFINED_glFramebufferTextureFaceEXT
+#define GLEE_H_DEFINED_glFramebufferTextureFaceEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLFRAMEBUFFERTEXTUREFACEEXTPROC) (GLenum target, GLenum attachment, GLuint texture, GLint level, GLenum face);
+  GLEE_EXTERN GLEEPFNGLFRAMEBUFFERTEXTUREFACEEXTPROC GLeeFuncPtr_glFramebufferTextureFaceEXT;
+  #define glFramebufferTextureFaceEXT GLeeFuncPtr_glFramebufferTextureFaceEXT
+#endif
+#endif 
+
+/* GL_EXT_scene_marker */
+
+#ifndef GL_EXT_scene_marker
+#define GL_EXT_scene_marker 1
+#define __GLEE_GL_EXT_scene_marker 1
+/* Constants */
+#ifndef GLEE_H_DEFINED_glBeginSceneEXT
+#define GLEE_H_DEFINED_glBeginSceneEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLBEGINSCENEEXTPROC) ();
+  GLEE_EXTERN GLEEPFNGLBEGINSCENEEXTPROC GLeeFuncPtr_glBeginSceneEXT;
+  #define glBeginSceneEXT GLeeFuncPtr_glBeginSceneEXT
+#endif
+#ifndef GLEE_H_DEFINED_glEndSceneEXT
+#define GLEE_H_DEFINED_glEndSceneEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLENDSCENEEXTPROC) ();
+  GLEE_EXTERN GLEEPFNGLENDSCENEEXTPROC GLeeFuncPtr_glEndSceneEXT;
+  #define glEndSceneEXT GLeeFuncPtr_glEndSceneEXT
+#endif
+#endif 
+
+/* GL_EXT_texture_compression_dxt1 */
+
+#ifndef GL_EXT_texture_compression_dxt1
+#define GL_EXT_texture_compression_dxt1 1
+#define __GLEE_GL_EXT_texture_compression_dxt1 1
+/* Constants */
+#define GL_COMPRESSED_RGB_S3TC_DXT1_EXT                    0x83F0
+#define GL_COMPRESSED_RGBA_S3TC_DXT1_EXT                   0x83F1
+#endif 
+
+/* GL_EXT_texture_env */
+
+#ifndef GL_EXT_texture_env
+#define GL_EXT_texture_env 1
+#define __GLEE_GL_EXT_texture_env 1
+/* Constants */
+#define GL_TEXTURE_ENV0_EXT                                0
+#define GL_TEXTURE_ENV_MODE_ALPHA_EXT                      0
+#define GL_ENV_COPY_EXT                                    0
+#define GL_ENV_REPLACE_EXT                                 0
+#define GL_ENV_MODULATE_EXT                                0
+#define GL_ENV_ADD_EXT                                     0
+#define GL_ENV_SUBTRACT_EXT                                0
+#define GL_ENV_REVERSE_SUBTRACT_EXT                        0
+#define GL_ENV_BLEND_EXT                                   0
+#define GL_ENV_REVERSE_BLEND_EXT                           0
+#define GL_TEXTURE_ENV_SHIFT_EXT                           0
+#endif 
+
+/* GL_IBM_static_data */
+
+#ifndef GL_IBM_static_data
+#define GL_IBM_static_data 1
+#define __GLEE_GL_IBM_static_data 1
+/* Constants */
+#define GL_ALL_STATIC_DATA_IBM                             103060
+#define GL_STATIC_VERTEX_ARRAY_IBM                         103061
+#endif 
+
+/* GL_NV_gpu_program4 */
+
+#ifndef GL_NV_gpu_program4
+#define GL_NV_gpu_program4 1
+#define __GLEE_GL_NV_gpu_program4 1
+/* Constants */
+#define GL_MIN_PROGRAM_TEXEL_OFFSET_EXT                    0x8904
+#define GL_MAX_PROGRAM_TEXEL_OFFSET_EXT                    0x8905
+#define GL_PROGRAM_ATTRIB_COMPONENTS_NV                    0x8906
+#define GL_PROGRAM_RESULT_COMPONENTS_NV                    0x8907
+#define GL_MAX_PROGRAM_ATTRIB_COMPONENTS_NV                0x8908
+#define GL_MAX_PROGRAM_RESULT_COMPONENTS_NV                0x8909
+#define GL_MAX_PROGRAM_GENERIC_ATTRIBS_NV                  0x8DA5
+#define GL_MAX_PROGRAM_GENERIC_RESULTS_NV                  0x8DA6
+#define GL_GEOMETRY_PROGRAM_NV                             0x8C26
+#define GL_MAX_PROGRAM_OUTPUT_VERTICES_NV                  0x8C27
+#define GL_MAX_PROGRAM_TOTAL_OUTPUT_COMPONENTS_NV          0x8C28
+#define GL_GEOMETRY_VERTICES_OUT_EXT                       0x8DDA
+#define GL_GEOMETRY_INPUT_TYPE_EXT                         0x8DDB
+#define GL_GEOMETRY_OUTPUT_TYPE_EXT                        0x8DDC
+#define GL_MAX_GEOMETRY_TEXTURE_IMAGE_UNITS_EXT            0x8C29
+#define GL_LINES_ADJACENCY_EXT                             0xA
+#define GL_LINE_STRIP_ADJACENCY_EXT                        0xB
+#define GL_TRIANGLES_ADJACENCY_EXT                         0xC
+#define GL_TRIANGLE_STRIP_ADJACENCY_EXT                    0xD
+#define GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS_EXT        0x8DA8
+#define GL_FRAMEBUFFER_INCOMPLETE_LAYER_COUNT_EXT          0x8DA9
+#define GL_FRAMEBUFFER_ATTACHMENT_LAYERED_EXT              0x8DA7
+#define GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LAYER_EXT        0x8CD4
+#define GL_PROGRAM_POINT_SIZE_EXT                          0x8642
+#define GL_VERTEX_ATTRIB_ARRAY_INTEGER_EXT                 0x88FD
+#ifndef GLEE_H_DEFINED_glProgramLocalParameterI4iNV
+#define GLEE_H_DEFINED_glProgramLocalParameterI4iNV
+  typedef GLvoid (APIENTRYP GLEEPFNGLPROGRAMLOCALPARAMETERI4INVPROC) (GLenum target, GLuint index, GLint x, GLint y, GLint z, GLint w);
+  GLEE_EXTERN GLEEPFNGLPROGRAMLOCALPARAMETERI4INVPROC GLeeFuncPtr_glProgramLocalParameterI4iNV;
+  #define glProgramLocalParameterI4iNV GLeeFuncPtr_glProgramLocalParameterI4iNV
+#endif
+#ifndef GLEE_H_DEFINED_glProgramLocalParameterI4ivNV
+#define GLEE_H_DEFINED_glProgramLocalParameterI4ivNV
+  typedef GLvoid (APIENTRYP GLEEPFNGLPROGRAMLOCALPARAMETERI4IVNVPROC) (GLenum target, GLuint index, const GLint * params);
+  GLEE_EXTERN GLEEPFNGLPROGRAMLOCALPARAMETERI4IVNVPROC GLeeFuncPtr_glProgramLocalParameterI4ivNV;
+  #define glProgramLocalParameterI4ivNV GLeeFuncPtr_glProgramLocalParameterI4ivNV
+#endif
+#ifndef GLEE_H_DEFINED_glProgramLocalParametersI4ivNV
+#define GLEE_H_DEFINED_glProgramLocalParametersI4ivNV
+  typedef GLvoid (APIENTRYP GLEEPFNGLPROGRAMLOCALPARAMETERSI4IVNVPROC) (GLenum target, GLuint index, GLsizei count, const GLint * params);
+  GLEE_EXTERN GLEEPFNGLPROGRAMLOCALPARAMETERSI4IVNVPROC GLeeFuncPtr_glProgramLocalParametersI4ivNV;
+  #define glProgramLocalParametersI4ivNV GLeeFuncPtr_glProgramLocalParametersI4ivNV
+#endif
+#ifndef GLEE_H_DEFINED_glProgramLocalParameterI4uiNV
+#define GLEE_H_DEFINED_glProgramLocalParameterI4uiNV
+  typedef GLvoid (APIENTRYP GLEEPFNGLPROGRAMLOCALPARAMETERI4UINVPROC) (GLenum target, GLuint index, GLuint x, GLuint y, GLuint z, GLuint w);
+  GLEE_EXTERN GLEEPFNGLPROGRAMLOCALPARAMETERI4UINVPROC GLeeFuncPtr_glProgramLocalParameterI4uiNV;
+  #define glProgramLocalParameterI4uiNV GLeeFuncPtr_glProgramLocalParameterI4uiNV
+#endif
+#ifndef GLEE_H_DEFINED_glProgramLocalParameterI4uivNV
+#define GLEE_H_DEFINED_glProgramLocalParameterI4uivNV
+  typedef GLvoid (APIENTRYP GLEEPFNGLPROGRAMLOCALPARAMETERI4UIVNVPROC) (GLenum target, GLuint index, const GLuint * params);
+  GLEE_EXTERN GLEEPFNGLPROGRAMLOCALPARAMETERI4UIVNVPROC GLeeFuncPtr_glProgramLocalParameterI4uivNV;
+  #define glProgramLocalParameterI4uivNV GLeeFuncPtr_glProgramLocalParameterI4uivNV
+#endif
+#ifndef GLEE_H_DEFINED_glProgramLocalParametersI4uivNV
+#define GLEE_H_DEFINED_glProgramLocalParametersI4uivNV
+  typedef GLvoid (APIENTRYP GLEEPFNGLPROGRAMLOCALPARAMETERSI4UIVNVPROC) (GLenum target, GLuint index, GLsizei count, const GLuint * params);
+  GLEE_EXTERN GLEEPFNGLPROGRAMLOCALPARAMETERSI4UIVNVPROC GLeeFuncPtr_glProgramLocalParametersI4uivNV;
+  #define glProgramLocalParametersI4uivNV GLeeFuncPtr_glProgramLocalParametersI4uivNV
+#endif
+#ifndef GLEE_H_DEFINED_glProgramEnvParameterI4iNV
+#define GLEE_H_DEFINED_glProgramEnvParameterI4iNV
+  typedef GLvoid (APIENTRYP GLEEPFNGLPROGRAMENVPARAMETERI4INVPROC) (GLenum target, GLuint index, GLint x, GLint y, GLint z, GLint w);
+  GLEE_EXTERN GLEEPFNGLPROGRAMENVPARAMETERI4INVPROC GLeeFuncPtr_glProgramEnvParameterI4iNV;
+  #define glProgramEnvParameterI4iNV GLeeFuncPtr_glProgramEnvParameterI4iNV
+#endif
+#ifndef GLEE_H_DEFINED_glProgramEnvParameterI4ivNV
+#define GLEE_H_DEFINED_glProgramEnvParameterI4ivNV
+  typedef GLvoid (APIENTRYP GLEEPFNGLPROGRAMENVPARAMETERI4IVNVPROC) (GLenum target, GLuint index, const GLint * params);
+  GLEE_EXTERN GLEEPFNGLPROGRAMENVPARAMETERI4IVNVPROC GLeeFuncPtr_glProgramEnvParameterI4ivNV;
+  #define glProgramEnvParameterI4ivNV GLeeFuncPtr_glProgramEnvParameterI4ivNV
+#endif
+#ifndef GLEE_H_DEFINED_glProgramEnvParametersI4ivNV
+#define GLEE_H_DEFINED_glProgramEnvParametersI4ivNV
+  typedef GLvoid (APIENTRYP GLEEPFNGLPROGRAMENVPARAMETERSI4IVNVPROC) (GLenum target, GLuint index, GLsizei count, const GLint * params);
+  GLEE_EXTERN GLEEPFNGLPROGRAMENVPARAMETERSI4IVNVPROC GLeeFuncPtr_glProgramEnvParametersI4ivNV;
+  #define glProgramEnvParametersI4ivNV GLeeFuncPtr_glProgramEnvParametersI4ivNV
+#endif
+#ifndef GLEE_H_DEFINED_glProgramEnvParameterI4uiNV
+#define GLEE_H_DEFINED_glProgramEnvParameterI4uiNV
+  typedef GLvoid (APIENTRYP GLEEPFNGLPROGRAMENVPARAMETERI4UINVPROC) (GLenum target, GLuint index, GLuint x, GLuint y, GLuint z, GLuint w);
+  GLEE_EXTERN GLEEPFNGLPROGRAMENVPARAMETERI4UINVPROC GLeeFuncPtr_glProgramEnvParameterI4uiNV;
+  #define glProgramEnvParameterI4uiNV GLeeFuncPtr_glProgramEnvParameterI4uiNV
+#endif
+#ifndef GLEE_H_DEFINED_glProgramEnvParameterI4uivNV
+#define GLEE_H_DEFINED_glProgramEnvParameterI4uivNV
+  typedef GLvoid (APIENTRYP GLEEPFNGLPROGRAMENVPARAMETERI4UIVNVPROC) (GLenum target, GLuint index, const GLuint * params);
+  GLEE_EXTERN GLEEPFNGLPROGRAMENVPARAMETERI4UIVNVPROC GLeeFuncPtr_glProgramEnvParameterI4uivNV;
+  #define glProgramEnvParameterI4uivNV GLeeFuncPtr_glProgramEnvParameterI4uivNV
+#endif
+#ifndef GLEE_H_DEFINED_glProgramEnvParametersI4uivNV
+#define GLEE_H_DEFINED_glProgramEnvParametersI4uivNV
+  typedef GLvoid (APIENTRYP GLEEPFNGLPROGRAMENVPARAMETERSI4UIVNVPROC) (GLenum target, GLuint index, GLsizei count, const GLuint * params);
+  GLEE_EXTERN GLEEPFNGLPROGRAMENVPARAMETERSI4UIVNVPROC GLeeFuncPtr_glProgramEnvParametersI4uivNV;
+  #define glProgramEnvParametersI4uivNV GLeeFuncPtr_glProgramEnvParametersI4uivNV
+#endif
+#ifndef GLEE_H_DEFINED_glGetProgramLocalParameterIivNV
+#define GLEE_H_DEFINED_glGetProgramLocalParameterIivNV
+  typedef GLvoid (APIENTRYP GLEEPFNGLGETPROGRAMLOCALPARAMETERIIVNVPROC) (GLenum target, GLuint index, GLint * params);
+  GLEE_EXTERN GLEEPFNGLGETPROGRAMLOCALPARAMETERIIVNVPROC GLeeFuncPtr_glGetProgramLocalParameterIivNV;
+  #define glGetProgramLocalParameterIivNV GLeeFuncPtr_glGetProgramLocalParameterIivNV
+#endif
+#ifndef GLEE_H_DEFINED_glGetProgramLocalParameterIuivNV
+#define GLEE_H_DEFINED_glGetProgramLocalParameterIuivNV
+  typedef GLvoid (APIENTRYP GLEEPFNGLGETPROGRAMLOCALPARAMETERIUIVNVPROC) (GLenum target, GLuint index, GLuint * params);
+  GLEE_EXTERN GLEEPFNGLGETPROGRAMLOCALPARAMETERIUIVNVPROC GLeeFuncPtr_glGetProgramLocalParameterIuivNV;
+  #define glGetProgramLocalParameterIuivNV GLeeFuncPtr_glGetProgramLocalParameterIuivNV
+#endif
+#ifndef GLEE_H_DEFINED_glGetProgramEnvParameterIivNV
+#define GLEE_H_DEFINED_glGetProgramEnvParameterIivNV
+  typedef GLvoid (APIENTRYP GLEEPFNGLGETPROGRAMENVPARAMETERIIVNVPROC) (GLenum target, GLuint index, GLint * params);
+  GLEE_EXTERN GLEEPFNGLGETPROGRAMENVPARAMETERIIVNVPROC GLeeFuncPtr_glGetProgramEnvParameterIivNV;
+  #define glGetProgramEnvParameterIivNV GLeeFuncPtr_glGetProgramEnvParameterIivNV
+#endif
+#ifndef GLEE_H_DEFINED_glGetProgramEnvParameterIuivNV
+#define GLEE_H_DEFINED_glGetProgramEnvParameterIuivNV
+  typedef GLvoid (APIENTRYP GLEEPFNGLGETPROGRAMENVPARAMETERIUIVNVPROC) (GLenum target, GLuint index, GLuint * params);
+  GLEE_EXTERN GLEEPFNGLGETPROGRAMENVPARAMETERIUIVNVPROC GLeeFuncPtr_glGetProgramEnvParameterIuivNV;
+  #define glGetProgramEnvParameterIuivNV GLeeFuncPtr_glGetProgramEnvParameterIuivNV
+#endif
+#ifndef GLEE_H_DEFINED_glFramebufferTextureEXT
+#define GLEE_H_DEFINED_glFramebufferTextureEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLFRAMEBUFFERTEXTUREEXTPROC) (GLenum target, GLenum attachment, GLuint texture, GLint level);
+  GLEE_EXTERN GLEEPFNGLFRAMEBUFFERTEXTUREEXTPROC GLeeFuncPtr_glFramebufferTextureEXT;
+  #define glFramebufferTextureEXT GLeeFuncPtr_glFramebufferTextureEXT
+#endif
+#ifndef GLEE_H_DEFINED_glFramebufferTextureLayerEXT
+#define GLEE_H_DEFINED_glFramebufferTextureLayerEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLFRAMEBUFFERTEXTURELAYEREXTPROC) (GLenum target, GLenum attachment, GLuint texture, GLint level, GLint layer);
+  GLEE_EXTERN GLEEPFNGLFRAMEBUFFERTEXTURELAYEREXTPROC GLeeFuncPtr_glFramebufferTextureLayerEXT;
+  #define glFramebufferTextureLayerEXT GLeeFuncPtr_glFramebufferTextureLayerEXT
+#endif
+#ifndef GLEE_H_DEFINED_glFramebufferTextureFaceEXT
+#define GLEE_H_DEFINED_glFramebufferTextureFaceEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLFRAMEBUFFERTEXTUREFACEEXTPROC) (GLenum target, GLenum attachment, GLuint texture, GLint level, GLenum face);
+  GLEE_EXTERN GLEEPFNGLFRAMEBUFFERTEXTUREFACEEXTPROC GLeeFuncPtr_glFramebufferTextureFaceEXT;
+  #define glFramebufferTextureFaceEXT GLeeFuncPtr_glFramebufferTextureFaceEXT
+#endif
+#ifndef GLEE_H_DEFINED_glVertexAttribI2iEXT
+#define GLEE_H_DEFINED_glVertexAttribI2iEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLVERTEXATTRIBI2IEXTPROC) (GLuint index, GLint x, GLint y);
+  GLEE_EXTERN GLEEPFNGLVERTEXATTRIBI2IEXTPROC GLeeFuncPtr_glVertexAttribI2iEXT;
+  #define glVertexAttribI2iEXT GLeeFuncPtr_glVertexAttribI2iEXT
+#endif
+#ifndef GLEE_H_DEFINED_glVertexAttribI3iEXT
+#define GLEE_H_DEFINED_glVertexAttribI3iEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLVERTEXATTRIBI3IEXTPROC) (GLuint index, GLint x, GLint y, GLint z);
+  GLEE_EXTERN GLEEPFNGLVERTEXATTRIBI3IEXTPROC GLeeFuncPtr_glVertexAttribI3iEXT;
+  #define glVertexAttribI3iEXT GLeeFuncPtr_glVertexAttribI3iEXT
+#endif
+#ifndef GLEE_H_DEFINED_glVertexAttribI4iEXT
+#define GLEE_H_DEFINED_glVertexAttribI4iEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLVERTEXATTRIBI4IEXTPROC) (GLuint index, GLint x, GLint y, GLint z, GLint w);
+  GLEE_EXTERN GLEEPFNGLVERTEXATTRIBI4IEXTPROC GLeeFuncPtr_glVertexAttribI4iEXT;
+  #define glVertexAttribI4iEXT GLeeFuncPtr_glVertexAttribI4iEXT
+#endif
+#ifndef GLEE_H_DEFINED_glVertexAttribI1uiEXT
+#define GLEE_H_DEFINED_glVertexAttribI1uiEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLVERTEXATTRIBI1UIEXTPROC) (GLuint index, GLuint x);
+  GLEE_EXTERN GLEEPFNGLVERTEXATTRIBI1UIEXTPROC GLeeFuncPtr_glVertexAttribI1uiEXT;
+  #define glVertexAttribI1uiEXT GLeeFuncPtr_glVertexAttribI1uiEXT
+#endif
+#ifndef GLEE_H_DEFINED_glVertexAttribI2uiEXT
+#define GLEE_H_DEFINED_glVertexAttribI2uiEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLVERTEXATTRIBI2UIEXTPROC) (GLuint index, GLuint x, GLuint y);
+  GLEE_EXTERN GLEEPFNGLVERTEXATTRIBI2UIEXTPROC GLeeFuncPtr_glVertexAttribI2uiEXT;
+  #define glVertexAttribI2uiEXT GLeeFuncPtr_glVertexAttribI2uiEXT
+#endif
+#ifndef GLEE_H_DEFINED_glVertexAttribI3uiEXT
+#define GLEE_H_DEFINED_glVertexAttribI3uiEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLVERTEXATTRIBI3UIEXTPROC) (GLuint index, GLuint x, GLuint y, GLuint z);
+  GLEE_EXTERN GLEEPFNGLVERTEXATTRIBI3UIEXTPROC GLeeFuncPtr_glVertexAttribI3uiEXT;
+  #define glVertexAttribI3uiEXT GLeeFuncPtr_glVertexAttribI3uiEXT
+#endif
+#ifndef GLEE_H_DEFINED_glVertexAttribI4uiEXT
+#define GLEE_H_DEFINED_glVertexAttribI4uiEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLVERTEXATTRIBI4UIEXTPROC) (GLuint index, GLuint x, GLuint y, GLuint z, GLuint w);
+  GLEE_EXTERN GLEEPFNGLVERTEXATTRIBI4UIEXTPROC GLeeFuncPtr_glVertexAttribI4uiEXT;
+  #define glVertexAttribI4uiEXT GLeeFuncPtr_glVertexAttribI4uiEXT
+#endif
+#ifndef GLEE_H_DEFINED_glVertexAttribI1ivEXT
+#define GLEE_H_DEFINED_glVertexAttribI1ivEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLVERTEXATTRIBI1IVEXTPROC) (GLuint index, const GLint * v);
+  GLEE_EXTERN GLEEPFNGLVERTEXATTRIBI1IVEXTPROC GLeeFuncPtr_glVertexAttribI1ivEXT;
+  #define glVertexAttribI1ivEXT GLeeFuncPtr_glVertexAttribI1ivEXT
+#endif
+#ifndef GLEE_H_DEFINED_glVertexAttribI2ivEXT
+#define GLEE_H_DEFINED_glVertexAttribI2ivEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLVERTEXATTRIBI2IVEXTPROC) (GLuint index, const GLint * v);
+  GLEE_EXTERN GLEEPFNGLVERTEXATTRIBI2IVEXTPROC GLeeFuncPtr_glVertexAttribI2ivEXT;
+  #define glVertexAttribI2ivEXT GLeeFuncPtr_glVertexAttribI2ivEXT
+#endif
+#ifndef GLEE_H_DEFINED_glVertexAttribI3ivEXT
+#define GLEE_H_DEFINED_glVertexAttribI3ivEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLVERTEXATTRIBI3IVEXTPROC) (GLuint index, const GLint * v);
+  GLEE_EXTERN GLEEPFNGLVERTEXATTRIBI3IVEXTPROC GLeeFuncPtr_glVertexAttribI3ivEXT;
+  #define glVertexAttribI3ivEXT GLeeFuncPtr_glVertexAttribI3ivEXT
+#endif
+#ifndef GLEE_H_DEFINED_glVertexAttribI4ivEXT
+#define GLEE_H_DEFINED_glVertexAttribI4ivEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLVERTEXATTRIBI4IVEXTPROC) (GLuint index, const GLint * v);
+  GLEE_EXTERN GLEEPFNGLVERTEXATTRIBI4IVEXTPROC GLeeFuncPtr_glVertexAttribI4ivEXT;
+  #define glVertexAttribI4ivEXT GLeeFuncPtr_glVertexAttribI4ivEXT
+#endif
+#ifndef GLEE_H_DEFINED_glVertexAttribI1uivEXT
+#define GLEE_H_DEFINED_glVertexAttribI1uivEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLVERTEXATTRIBI1UIVEXTPROC) (GLuint index, const GLuint * v);
+  GLEE_EXTERN GLEEPFNGLVERTEXATTRIBI1UIVEXTPROC GLeeFuncPtr_glVertexAttribI1uivEXT;
+  #define glVertexAttribI1uivEXT GLeeFuncPtr_glVertexAttribI1uivEXT
+#endif
+#ifndef GLEE_H_DEFINED_glVertexAttribI2uivEXT
+#define GLEE_H_DEFINED_glVertexAttribI2uivEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLVERTEXATTRIBI2UIVEXTPROC) (GLuint index, const GLuint * v);
+  GLEE_EXTERN GLEEPFNGLVERTEXATTRIBI2UIVEXTPROC GLeeFuncPtr_glVertexAttribI2uivEXT;
+  #define glVertexAttribI2uivEXT GLeeFuncPtr_glVertexAttribI2uivEXT
+#endif
+#ifndef GLEE_H_DEFINED_glVertexAttribI3uivEXT
+#define GLEE_H_DEFINED_glVertexAttribI3uivEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLVERTEXATTRIBI3UIVEXTPROC) (GLuint index, const GLuint * v);
+  GLEE_EXTERN GLEEPFNGLVERTEXATTRIBI3UIVEXTPROC GLeeFuncPtr_glVertexAttribI3uivEXT;
+  #define glVertexAttribI3uivEXT GLeeFuncPtr_glVertexAttribI3uivEXT
+#endif
+#ifndef GLEE_H_DEFINED_glVertexAttribI4uivEXT
+#define GLEE_H_DEFINED_glVertexAttribI4uivEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLVERTEXATTRIBI4UIVEXTPROC) (GLuint index, const GLuint * v);
+  GLEE_EXTERN GLEEPFNGLVERTEXATTRIBI4UIVEXTPROC GLeeFuncPtr_glVertexAttribI4uivEXT;
+  #define glVertexAttribI4uivEXT GLeeFuncPtr_glVertexAttribI4uivEXT
+#endif
+#ifndef GLEE_H_DEFINED_glVertexAttribI4bvEXT
+#define GLEE_H_DEFINED_glVertexAttribI4bvEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLVERTEXATTRIBI4BVEXTPROC) (GLuint index, const GLbyte * v);
+  GLEE_EXTERN GLEEPFNGLVERTEXATTRIBI4BVEXTPROC GLeeFuncPtr_glVertexAttribI4bvEXT;
+  #define glVertexAttribI4bvEXT GLeeFuncPtr_glVertexAttribI4bvEXT
+#endif
+#ifndef GLEE_H_DEFINED_glVertexAttribI4svEXT
+#define GLEE_H_DEFINED_glVertexAttribI4svEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLVERTEXATTRIBI4SVEXTPROC) (GLuint index, const GLshort * v);
+  GLEE_EXTERN GLEEPFNGLVERTEXATTRIBI4SVEXTPROC GLeeFuncPtr_glVertexAttribI4svEXT;
+  #define glVertexAttribI4svEXT GLeeFuncPtr_glVertexAttribI4svEXT
+#endif
+#ifndef GLEE_H_DEFINED_glVertexAttribI4ubvEXT
+#define GLEE_H_DEFINED_glVertexAttribI4ubvEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLVERTEXATTRIBI4UBVEXTPROC) (GLuint index, const GLubyte * v);
+  GLEE_EXTERN GLEEPFNGLVERTEXATTRIBI4UBVEXTPROC GLeeFuncPtr_glVertexAttribI4ubvEXT;
+  #define glVertexAttribI4ubvEXT GLeeFuncPtr_glVertexAttribI4ubvEXT
+#endif
+#ifndef GLEE_H_DEFINED_glVertexAttribI4usvEXT
+#define GLEE_H_DEFINED_glVertexAttribI4usvEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLVERTEXATTRIBI4USVEXTPROC) (GLuint index, const GLushort * v);
+  GLEE_EXTERN GLEEPFNGLVERTEXATTRIBI4USVEXTPROC GLeeFuncPtr_glVertexAttribI4usvEXT;
+  #define glVertexAttribI4usvEXT GLeeFuncPtr_glVertexAttribI4usvEXT
+#endif
+#ifndef GLEE_H_DEFINED_glVertexAttribIPointerEXT
+#define GLEE_H_DEFINED_glVertexAttribIPointerEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLVERTEXATTRIBIPOINTEREXTPROC) (GLuint index, GLint size, GLenum type, GLsizei stride, const GLvoid * pointer);
+  GLEE_EXTERN GLEEPFNGLVERTEXATTRIBIPOINTEREXTPROC GLeeFuncPtr_glVertexAttribIPointerEXT;
+  #define glVertexAttribIPointerEXT GLeeFuncPtr_glVertexAttribIPointerEXT
+#endif
+#ifndef GLEE_H_DEFINED_glGetVertexAttribIivEXT
+#define GLEE_H_DEFINED_glGetVertexAttribIivEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLGETVERTEXATTRIBIIVEXTPROC) (GLuint index, GLenum pname, GLint * params);
+  GLEE_EXTERN GLEEPFNGLGETVERTEXATTRIBIIVEXTPROC GLeeFuncPtr_glGetVertexAttribIivEXT;
+  #define glGetVertexAttribIivEXT GLeeFuncPtr_glGetVertexAttribIivEXT
+#endif
+#ifndef GLEE_H_DEFINED_glGetVertexAttribIuivEXT
+#define GLEE_H_DEFINED_glGetVertexAttribIuivEXT
+  typedef GLvoid (APIENTRYP GLEEPFNGLGETVERTEXATTRIBIUIVEXTPROC) (GLuint index, GLenum pname, GLuint * params);
+  GLEE_EXTERN GLEEPFNGLGETVERTEXATTRIBIUIVEXTPROC GLeeFuncPtr_glGetVertexAttribIuivEXT;
+  #define glGetVertexAttribIuivEXT GLeeFuncPtr_glGetVertexAttribIuivEXT
+#endif
+#endif 
+
+/* GL_OES_byte_coordinates */
+
+#ifndef GL_OES_byte_coordinates
+#define GL_OES_byte_coordinates 1
+#define __GLEE_GL_OES_byte_coordinates 1
+/* Constants */
+#define GL_BYTE                                            0x1400
+#endif 
+
+/* GL_OES_compressed_paletted_texture */
+
+#ifndef GL_OES_compressed_paletted_texture
+#define GL_OES_compressed_paletted_texture 1
+#define __GLEE_GL_OES_compressed_paletted_texture 1
+/* Constants */
+#define GL_PALETTE4_RGB8_OES                               0x8B90
+#define GL_PALETTE4_RGBA8_OES                              0x8B91
+#define GL_PALETTE4_R5_G6_B5_OES                           0x8B92
+#define GL_PALETTE4_RGBA4_OES                              0x8B93
+#define GL_PALETTE4_RGB5_A1_OES                            0x8B94
+#define GL_PALETTE8_RGB8_OES                               0x8B95
+#define GL_PALETTE8_RGBA8_OES                              0x8B96
+#define GL_PALETTE8_R5_G6_B5_OES                           0x8B97
+#define GL_PALETTE8_RGBA4_OES                              0x8B98
+#define GL_PALETTE8_RGB5_A1_OES                            0x8B99
+#endif 
+
+/* GL_OES_single_precision */
+
+#ifndef GL_OES_single_precision
+#define GL_OES_single_precision 1
+#define __GLEE_GL_OES_single_precision 1
+/* Constants */
+#ifndef GLEE_H_DEFINED_glDepthRangefOES
+#define GLEE_H_DEFINED_glDepthRangefOES
+  typedef GLvoid (APIENTRYP GLEEPFNGLDEPTHRANGEFOESPROC) (GLclampf n, GLclampf f);
+  GLEE_EXTERN GLEEPFNGLDEPTHRANGEFOESPROC GLeeFuncPtr_glDepthRangefOES;
+  #define glDepthRangefOES GLeeFuncPtr_glDepthRangefOES
+#endif
+#ifndef GLEE_H_DEFINED_glFrustumfOES
+#define GLEE_H_DEFINED_glFrustumfOES
+  typedef GLvoid (APIENTRYP GLEEPFNGLFRUSTUMFOESPROC) (GLfloat l, GLfloat r, GLfloat b, GLfloat t, GLfloat n, GLfloat f);
+  GLEE_EXTERN GLEEPFNGLFRUSTUMFOESPROC GLeeFuncPtr_glFrustumfOES;
+  #define glFrustumfOES GLeeFuncPtr_glFrustumfOES
+#endif
+#ifndef GLEE_H_DEFINED_glOrthofOES
+#define GLEE_H_DEFINED_glOrthofOES
+  typedef GLvoid (APIENTRYP GLEEPFNGLORTHOFOESPROC) (GLfloat l, GLfloat r, GLfloat b, GLfloat t, GLfloat n, GLfloat f);
+  GLEE_EXTERN GLEEPFNGLORTHOFOESPROC GLeeFuncPtr_glOrthofOES;
+  #define glOrthofOES GLeeFuncPtr_glOrthofOES
+#endif
+#ifndef GLEE_H_DEFINED_glClipPlanefOES
+#define GLEE_H_DEFINED_glClipPlanefOES
+  typedef GLvoid (APIENTRYP GLEEPFNGLCLIPPLANEFOESPROC) (GLenum plane, const GLfloat* equation);
+  GLEE_EXTERN GLEEPFNGLCLIPPLANEFOESPROC GLeeFuncPtr_glClipPlanefOES;
+  #define glClipPlanefOES GLeeFuncPtr_glClipPlanefOES
+#endif
+#ifndef GLEE_H_DEFINED_glGetClipPlanefOES
+#define GLEE_H_DEFINED_glGetClipPlanefOES
+  typedef GLvoid (APIENTRYP GLEEPFNGLGETCLIPPLANEFOESPROC) (GLenum plane, GLfloat* equation);
+  GLEE_EXTERN GLEEPFNGLGETCLIPPLANEFOESPROC GLeeFuncPtr_glGetClipPlanefOES;
+  #define glGetClipPlanefOES GLeeFuncPtr_glGetClipPlanefOES
+#endif
+#ifndef GLEE_H_DEFINED_glClearDepthfOES
+#define GLEE_H_DEFINED_glClearDepthfOES
+  typedef GLvoid (APIENTRYP GLEEPFNGLCLEARDEPTHFOESPROC) (GLclampd depth);
+  GLEE_EXTERN GLEEPFNGLCLEARDEPTHFOESPROC GLeeFuncPtr_glClearDepthfOES;
+  #define glClearDepthfOES GLeeFuncPtr_glClearDepthfOES
+#endif
+#endif 
+
+/* GL_SGIX_pixel_texture_bits */
+
+#ifndef GL_SGIX_pixel_texture_bits
+#define GL_SGIX_pixel_texture_bits 1
+#define __GLEE_GL_SGIX_pixel_texture_bits 1
+/* Constants */
+#endif 
+
+/* GL_SGIX_texture_range */
+
+#ifndef GL_SGIX_texture_range
+#define GL_SGIX_texture_range 1
+#define __GLEE_GL_SGIX_texture_range 1
+/* Constants */
+#define GL_RGB_SIGNED_SGIX                                 0x85E0
+#define GL_RGBA_SIGNED_SGIX                                0x85E1
+#define GL_ALPHA_SIGNED_SGIX                               0x85E2
+#define GL_LUMINANCE_SIGNED_SGIX                           0x85E3
+#define GL_INTENSITY_SIGNED_SGIX                           0x85E4
+#define GL_LUMINANCE_ALPHA_SIGNED_SGIX                     0x85E5
+#define GL_RGB16_SIGNED_SGIX                               0x85E6
+#define GL_RGBA16_SIGNED_SGIX                              0x85E7
+#define GL_ALPHA16_SIGNED_SGIX                             0x85E8
+#define GL_LUMINANCE16_SIGNED_SGIX                         0x85E9
+#define GL_INTENSITY16_SIGNED_SGIX                         0x85EA
+#define GL_LUMINANCE16_ALPHA16_SIGNED_SGIX                 0x85EB
+#define GL_RGB_EXTENDED_RANGE_SGIX                         0x85EC
+#define GL_RGBA_EXTENDED_RANGE_SGIX                        0x85ED
+#define GL_ALPHA_EXTENDED_RANGE_SGIX                       0x85EE
+#define GL_LUMINANCE_EXTENDED_RANGE_SGIX                   0x85EF
+#define GL_INTENSITY_EXTENDED_RANGE_SGIX                   0x85F0
+#define GL_LUMINANCE_ALPHA_EXTENDED_RANGE_SGIX             0x85F1
+#define GL_RGB16_EXTENDED_RANGE_SGIX                       0x85F2
+#define GL_RGBA16_EXTENDED_RANGE_SGIX                      0x85F3
+#define GL_ALPHA16_EXTENDED_RANGE_SGIX                     0x85F4
+#define GL_LUMINANCE16_EXTENDED_RANGE_SGIX                 0x85F5
+#define GL_INTENSITY16_EXTENDED_RANGE_SGIX                 0x85F6
+#define GL_LUMINANCE16_ALPHA16_EXTENDED_RANGE_SGIX         0x85F7
+#define GL_MIN_LUMINANCE_SGIS                              0x85F8
+#define GL_MAX_LUMINANCE_SGIS                              0x85F9
+#define GL_MIN_INTENSITY_SGIS                              0x85FA
+#define GL_MAX_INTENSITY_SGIS                              0x85FB
 #endif 
 
 /* WGL  */
