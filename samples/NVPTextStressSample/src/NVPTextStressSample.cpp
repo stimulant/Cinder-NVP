@@ -12,8 +12,6 @@
 #include "cinder/Utilities.h"
 #include "Globals.h"
 
-#include "cinder/qtime/MovieWriter.h"
-#include "cinder/qtime/QuickTime.h"
 #include "../include/Resources.h"
 
 using namespace ci;
@@ -21,8 +19,6 @@ using namespace ci::app;
 using namespace std;
 
 #define NUM_TEXT 7000
-
-static const int codec = 1919706400;
 
 class NVPTextStressSampleApp : public AppBasic {
 public:	
@@ -35,7 +31,6 @@ public:
 
 	std::vector<NVPTextBoxTestRef>		mTexts;
 
-	bool		mSetup;
 	ci::params::InterfaceGl			mParams;
 
 	ci::Anim<Vec2f>		mPos;
@@ -65,9 +60,6 @@ public:
 	
     Globals*							mGlobals;
 
-	
-	qtime::MovieWriterRef	mMovieWriter;
-
 };
 void NVPTextStressSampleApp::prepareSettings( Settings* settings )
 {
@@ -83,7 +75,6 @@ void NVPTextStressSampleApp::setup()
 
     mGlobals = new Globals();
 	
-	mSetup = false;
 	mFill = true;
 	mStrokeWidth = .05f;
 	mUnderline = true;
@@ -92,22 +83,24 @@ void NVPTextStressSampleApp::setup()
 	gl::enableDepthRead();
 	gl::enableDepthWrite();
 	
-	//hack because nvidia path rendering won't work in setup with glew not initialized?
-	timeline().add( [this] {
-		mFont = NVPFont::create(std::string("Lato Hairline"));
-		mFont2 = NVPFont::create(std::string("Lato Heavy"));
-		for(int i=0; i<NUM_TEXT; i++){
-			NVPTextBoxTestRef mText = NVPTextBoxTest::create();
-			mText->setText(getRandNum());
-			mText->setFont(mFont);
-			mText->setDebugDraw(false);
-			mText->setFontPt(float(34));
-			mTexts.push_back(mText);
-		}
+	//load font outlines
+	std::string fontPath = getAssetPath("Lato-Hairline.ttf").generic_string();
+	mFont = NVPFont::create(fontPath,false);
+	fontPath = getAssetPath("Lato-Heavy.ttf").generic_string();
+	mFont2 = NVPFont::create(fontPath,false);
+
+	//create text boxes
+	for(int i=0; i<NUM_TEXT; i++){
+		NVPTextBoxTestRef mText = NVPTextBoxTest::create();
+		mText->setText(getRandNum());
+		mText->setFont(mFont);
+		mText->setDebugDraw(false);
+		mText->setFontPt(float(34));
+		mTexts.push_back(mText);
+	}
 		
-		startTimeline();
-		mSetup = true;
-	},timeline().getCurrentTime()+.01f);
+	startTimeline();
+		
 	xWidth = 15;
 	yWidth = 20;
 	scalespeed = .5f;
@@ -119,20 +112,8 @@ void NVPTextStressSampleApp::setup()
 	mKerning = 1.00f;
 	mRandSpeed = 5;
 	xWrap = 2190;
-	mParams.addParam( "fps", &mFps);
-	//mParams.addParam( "posx", &mPos.x ).step(.1);
-	//mParams.addParam( "posy", &mPos.y ).step(.1);
-	mParams.addParam( "kerning", &mKerning,"min=0.0000 max=2.000 step=.0001" );
-	mParams.addParam( "fill", &mFill);
-	mParams.addParam( "underline", &mUnderline);
-	mParams.addParam( "debug fonts", &mDebugFonts);
-	mParams.addParam( "stroke width", &mStrokeWidth,"min=0.0000 max=2.000 step=.001" );
-	mParams.addParam( "xwidth", &xWidth );
-	mParams.addParam( "ywidth", &yWidth );
+
 	mParams.addParam( "mMaxLife", &Globals::get()->maxLife).min(0).max(100).step(1);
-	//mParams.addParam( "mRandSpeed", &mRandSpeed );
-	mParams.addParam( "scale", &mScaleParam ).step(.1).updateFn( [this] { mScaleVal = mScaleParam; } );
-	mParams.addParam( "pos", &mPosParam ).step(1).updateFn( [this] { mPos = Vec2f(mPosParam.x,mPosParam.y); } );
 	mParams.addParam("lifeColor r", &Globals::get()->lifeColor.r).step(.01);
 	mParams.addParam("lifeColor g", &Globals::get()->lifeColor.g).step(.01);
 	mParams.addParam("lifeColor b", &Globals::get()->lifeColor.b).step(.01);
@@ -140,21 +121,11 @@ void NVPTextStressSampleApp::setup()
 	mParams.addParam("hueSpread", &Globals::get()->hueSpread).step(.01);
 	mParams.addParam("satSpread", &Globals::get()->satSpread).step(.01);
 	mParams.addParam("valSpread", &Globals::get()->valSpread).step(.01);
-	mParams.addParam("xwrap", &xWrap).step(1);
 
-	/*fs::path path = getSaveFilePath();
-	if( !path.empty() ){
-		qtime::MovieWriter::Format format;
-		if( qtime::MovieWriter::getUserCompressionSettings( &format ) ) {
-			mMovieWriter = qtime::MovieWriter::create( path, getWindowWidth(), getWindowHeight(), format );
-		}
-	}*/
-	
+
 }
 void NVPTextStressSampleApp::startTimeline(){
-	timeline().apply( &mPos, Vec2f(0,0), 25, ci::EaseInOutQuad() ).finishFn( [&] {
-		console()<<"mPos first tween done " << endl;
-	});
+	timeline().apply( &mPos, Vec2f(0,0), 25, ci::EaseInOutQuad() );
 	timeline().apply( &mScaleVal, 1.2f, 11.f, ci::EaseInOutQuint() ).delay(3);
 	timeline().apply( &mRandSpeed, 2, 8.f, ci::EaseOutQuint() ).delay(15);
 
@@ -167,10 +138,6 @@ void NVPTextStressSampleApp::startTimeline(){
 }
 void NVPTextStressSampleApp::update()
 {
-	mFps = getFrameRate();
-	if(mSetup){
-		
-	}
 }
 string NVPTextStressSampleApp::getRandNum(){
 	string txt;
@@ -197,47 +164,43 @@ void NVPTextStressSampleApp::draw()
 {
 	gl::clear( Color( 0, 0.0f, 0.0f ) );
 
-	if(mSetup){
-		gl::setViewport( getWindowBounds() );
-		gl::setMatricesWindow( getWindowWidth(), getWindowHeight() );
+	gl::setViewport( getWindowBounds() );
+	gl::setMatricesWindow( getWindowWidth(), getWindowHeight() );
 
-		gl::pushMatrices();
-		int i = 0;
-		int yOffset = 0;
-		int xOffset = 0;
-		gl::translate(mPos.value().x,mPos.value().y);
-		gl::scale(mScaleVal,mScaleVal,mScaleVal);
-		gl::translate(-mPos.value().x,-mPos.value().y);
-		int twidth = floor(xWrap/xWidth)*xWidth;
-		char c[256];
-		string txt;
-		int textInd = 0;
-		
-		
-		
-		for(int i=0;i < NUM_TEXT; i+=1){
-			NVPTextBoxTestRef tText = mTexts[i];
+	gl::pushMatrices();
+	int i = 0;
+	int yOffset = 0;
+	int xOffset = 0;
+	gl::translate(mPos.value().x,mPos.value().y);
+	gl::scale(mScaleVal,mScaleVal,mScaleVal);
+	gl::translate(-mPos.value().x,-mPos.value().y);
+	int twidth = floor(xWrap/xWidth)*xWidth;
+	char c[256];
+	string txt;
+	int textInd = 0;
+
+	for(int i=0;i < NUM_TEXT; i+=1){
+		NVPTextBoxTestRef tText = mTexts[i];
 			
-			if(tText->getLife()==0){
-				tText->setFont(mFont);
-				if(tText->getProcessing()==true){
-					if(tText->getText()=="0"){
-						if(xOffset%twidth!=0){
-							NVPTextBoxTestRef tLast = mTexts[i-1];
-							if(tLast->getLife()==0 && tLast->getProcessing()==true){
-								string tl = tLast->getText();
-								if(tl!="0" && (tl == "9" || tl == "8" || tl == "3")){
-									if(xOffset%twidth<twidth && i!=NUM_TEXT-1){
-										NVPTextBoxTestRef tNext = mTexts[i+1];
-										if(tNext->getLife()==0 && tNext->getProcessing()==true){
-											if(tNext->getText()==tLast->getText()){
-												tText->setLife(Globals::get()->maxLife);
-												tLast->setLife(Globals::get()->maxLife);
-												tNext->setLife(Globals::get()->maxLife);
-												tText->setFont(mFont2);
-												tLast->setFont(mFont2);
-												tNext->setFont(mFont2);
-											}
+		if(tText->getLife()==0){
+			tText->setFont(mFont);
+			if(tText->getProcessing()==true){
+				if(tText->getText()=="0"){
+					if(xOffset%twidth!=0){
+						NVPTextBoxTestRef tLast = mTexts[i-1];
+						if(tLast->getLife()==0 && tLast->getProcessing()==true){
+							string tl = tLast->getText();
+							if(tl!="0" && (tl == "9" || tl == "8" || tl == "3")){
+								if(xOffset%twidth<twidth && i!=NUM_TEXT-1){
+									NVPTextBoxTestRef tNext = mTexts[i+1];
+									if(tNext->getLife()==0 && tNext->getProcessing()==true){
+										if(tNext->getText()==tLast->getText()){
+											tText->setLife(Globals::get()->maxLife);
+											tLast->setLife(Globals::get()->maxLife);
+											tNext->setLife(Globals::get()->maxLife);
+											tText->setFont(mFont2);
+											tLast->setFont(mFont2);
+											tNext->setFont(mFont2);
 										}
 									}
 								}
@@ -246,25 +209,26 @@ void NVPTextStressSampleApp::draw()
 					}
 				}
 			}
+		}
 			
-			tText->draw(Vec2f(xOffset%twidth,floor(float(xOffset)/twidth)*yWidth));
-			xOffset+=xWidth;
-			yOffset+=yWidth;
-		}
-		for(int i=0;i < NUM_TEXT; i+=1){
-			NVPTextBoxTestRef tText = mTexts[i];
-			if(ci::randInt(0,mRandSpeed)==0){
-				
-				tText->setProcessing(true);
-				if(tText->getLife()==0)
-					tText->setText(getRandNum());
-			}
-			else 
-				tText->setProcessing(false);
-		}
-		gl::popMatrices();
-		//mParams.draw();
+		tText->draw(Vec2f(xOffset%twidth,floor(float(xOffset)/twidth)*yWidth));
+		xOffset+=xWidth;
+		yOffset+=yWidth;
 	}
+	for(int i=0;i < NUM_TEXT; i+=1){
+		NVPTextBoxTestRef tText = mTexts[i];
+		if(ci::randInt(0,mRandSpeed)==0){
+				
+			tText->setProcessing(true);
+			if(tText->getLife()==0)
+				tText->setText(getRandNum());
+		}
+		else 
+			tText->setProcessing(false);
+	}
+	gl::popMatrices();
+	//mParams.draw();
+
 }
 
-CINDER_APP_BASIC( NVPTextStressSampleApp, RendererGl(RendererGl::AA_MSAA_32 ))
+CINDER_APP_BASIC( NVPTextStressSampleApp, RendererGl(RendererGl::AA_MSAA_16 ))
