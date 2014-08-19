@@ -61,7 +61,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <ResourceCompile>
-      <AdditionalIncludeDirectories>"$(CINDER_GLEW)\include";..\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>"$(CINDER_DIR)\include";..\include</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>cinder-$(PlatformToolset)_d.lib;$(CINDER_DIR)\blocks\QuickTime\lib\msw\$(PlatformTarget)\CVClient.lib;$(CINDER_DIR)\blocks\QuickTime\lib\msw\$(PlatformTarget)\QTMLClient.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -88,7 +88,7 @@
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
     </ProjectReference>
     <ResourceCompile>
-      <AdditionalIncludeDirectories>"$(CINDER_GLEW)\include";..\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>"$(CINDER_DIR)\include";..\include</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>cinder-$(PlatformToolset).lib;$(CINDER_DIR)\blocks\QuickTime\lib\msw\$(PlatformTarget)\CVClient.lib;$(CINDER_DIR)\blocks\QuickTime\lib\msw\$(PlatformTarget)\QTMLClient.lib;%(AdditionalDependencies)</AdditionalDependencies>
