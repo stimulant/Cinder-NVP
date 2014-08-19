@@ -36,12 +36,12 @@ namespace cinder {
 			float mXMin, mXMax, mYMin, mYMax, mEmUnits, mDescender, mAscender, mFontHeight, mMaxAdvanceWidth, mInitialOffset, mMaxAdvanceHeight, mFontHasKerning, mUnderlinePosition, mUnderlineThickness;
 		};
 
-		static NVPFontRef create(std::string fontName = "Arial")
+		static NVPFontRef create(std::string fontName = "Arial", bool pSystemFont = false)
 		{
-			return ( NVPFontRef )( new NVPFont(fontName) );
+			return ( NVPFontRef )( new NVPFont(fontName, pSystemFont) );
 		}
 
-		NVPFont(std::string fontName = "Arial");
+		NVPFont(std::string fontName = "Arial", bool pSystemFont = false);
 		GLuint	getGlyphs(){ return glyphBase; }
 		FontMetrics getFontMetrics(){ return mFontMetrics; }
 		GlyphMetricsRef getGlyphMetrics(){ return mGlyphMetrics; }
@@ -60,6 +60,7 @@ namespace cinder {
 		GlyphMetricsRef mGlyphMetrics;
 		float	mStrokeWidth;
 		bool	mIsOTF;
+		bool	mSystemFont;
 	};
 
 }

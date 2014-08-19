@@ -7,7 +7,8 @@ using namespace std;
 namespace cinder {
 
 
-	NVPFont::NVPFont(std::string fontName):numChars(256),mStrokeWidth(0.0f),mEmScale(2048),mIsOTF(false){
+	NVPFont::NVPFont(std::string fontName, bool pSystemFont):numChars(256),mStrokeWidth(0.0f),mEmScale(2048),mIsOTF(false){
+		mSystemFont = pSystemFont;
 		mFontName = fontName;
 		glyphBase = 0;
 		createGlyphs();
@@ -28,15 +29,16 @@ namespace cinder {
 
 		//attempt to load glyphs from mFontname system font. If mFontName can't be found then load Arial. if Arial can't be found
 		//then load the default sans system font
-		glPathGlyphRangeNV(glyphBase, GL_SYSTEM_FONT_NAME_NV, mFontName.c_str(), GL_NONE,
+		glPathGlyphRangeNV(glyphBase, mSystemFont ? GL_SYSTEM_FONT_NAME_NV : GL_FILE_NAME_NV, mFontName.c_str(), GL_NONE,
 			0, numChars,
 			GL_SKIP_MISSING_GLYPH_NV, pathTemplate, GLfloat(mEmScale));
+
 		glPathGlyphRangeNV(glyphBase, GL_SYSTEM_FONT_NAME_NV,"Arial", GL_NONE,
 			0, numChars,
 			GL_SKIP_MISSING_GLYPH_NV, pathTemplate, GLfloat(mEmScale));
 		glPathGlyphRangeNV(glyphBase, GL_STANDARD_FONT_NAME_NV,"Sans", GL_NONE,
 			0, numChars,GL_USE_MISSING_GLYPH_NV, pathTemplate, GLfloat(mEmScale));
-
+			
 		float font_data[4];
 		glGetPathMetricRangeNV(GL_FONT_Y_MIN_BOUNDS_BIT_NV|GL_FONT_Y_MAX_BOUNDS_BIT_NV|
 			GL_FONT_UNDERLINE_POSITION_BIT_NV|GL_FONT_UNDERLINE_THICKNESS_BIT_NV,
