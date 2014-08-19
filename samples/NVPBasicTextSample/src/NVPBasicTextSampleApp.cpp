@@ -23,7 +23,6 @@ public:
 	std::vector<NVPTextBoxRef>		mTexts;
 	NVPTextBoxRef					mText2;
 
-	bool		mSetup;
 	ci::params::InterfaceGl			mParams;
 
 	Vec2f		mPos;
@@ -34,8 +33,8 @@ public:
 	bool		mUnderline;
 	
 	bool		mDebugFonts;
-	NVPFontRef mFont;
-	NVPFontRef mFont2;
+	NVPFontRef	mFont;
+	NVPFontRef	mFont2;
 
 	std::vector<ci::gl::Texture>		mTexs;
 };
@@ -48,8 +47,7 @@ void NVPBasicTextSampleApp::prepareSettings( Settings* settings )
 }
 void NVPBasicTextSampleApp::setup()
 {
-	initializeNVPR("");
-	mSetup = false;
+	//initializeNVPR("");
 	mFill = true;
 	mStrokeWidth = .05f;
 	mUnderline = true;
@@ -58,38 +56,35 @@ void NVPBasicTextSampleApp::setup()
 	gl::enableDepthRead();
 	gl::enableDepthWrite();
 	
-	//hack because nvidia path rendering won't work in setup with glew not initialized?
-	timeline().add( [this] {
-		mFont = NVPFont::create(std::string("Arial"));
+	mFont = NVPFont::create(std::string("Arial"), true);
 
-		for(int i=60; i>5; i-=10){
-			NVPTextBoxRef mText = NVPTextBox::create();
-			mText->setText("Hello Cinder!");
-			mText->setFont(mFont);
-			mText->setDebugDraw(false);
-			mText->setFontPt(float(i));
-			mTexts.push_back(mText);
-		}
-		mFont2 = NVPFont::create(std::string("Pacifico"));
-		mText2 = NVPTextBox::create();
-		mText2->setText("james Bass");
-		mText2->setFont(mFont2);
-		mText2->setDebugDraw(true);
-		mText2->setFontPt(200);
+	for(int i=60; i>5; i-=10){
+		NVPTextBoxRef mText = NVPTextBox::create();
+		mText->setText("Hello Cinder!");
+		mText->setFont(mFont);
+		mText->setDebugDraw(false);
+		mText->setFontPt(float(i));
+		mTexts.push_back(mText);
+	}
+	std::string fontPath = getAssetPath("Pacifico.ttf").generic_string();
+	mFont2 = NVPFont::create(fontPath,false);
+	mText2 = NVPTextBox::create();
+	mText2->setText("james Bass");
+	mText2->setFont(mFont2);
+	mText2->setDebugDraw(true);
+	mText2->setFontPt(200);
 
-		//display Cinder textbox
-		for(int i=60; i>5; i-=10){
-			gl::TextureFont::Format f;
-			ci::gl::TextureFontRef mFontRef = cinder::gl::TextureFont::create( Font( "Arial", float(i) ), f );
-			TextLayout layout;
-			layout.setFont(mFontRef->getFont() );
-			layout.setColor(Color::white() );
-			layout.addLine( "Hello Cinder!" );
-			mTexs.push_back(gl::Texture( layout.render(true,false) ));
-		}
-		mSetup = true;
-	},timeline().getCurrentTime()+.01f);
-
+	//display Cinder textbox
+	for(int i=60; i>5; i-=10){
+		gl::TextureFont::Format f;
+		ci::gl::TextureFontRef mFontRef = cinder::gl::TextureFont::create( Font( "Arial", float(i) ), f );
+		TextLayout layout;
+		layout.setFont(mFontRef->getFont() );
+		layout.setColor(Color::white() );
+		layout.addLine( "Hello Cinder!" );
+		mTexs.push_back(gl::Texture( layout.render(true,false) ));
+	}
+	
 	mPos = Vec2f(105.f,108.f);
 	mScale = 1.f;
 	mParams = ci::params::InterfaceGl( "Parameters", Vec2i( 250, 500 ) );
@@ -106,42 +101,38 @@ void NVPBasicTextSampleApp::setup()
 
 void NVPBasicTextSampleApp::update()
 {
-	if(mSetup){
-		mFont2->setStrokeWidth(mStrokeWidth);
-		mText2->setKerning(mKerning);
-		mText2->setUnderline(mUnderline);
-		mText2->setFilling(mFill);
-		mText2->setKerning(mKerning);
-		mText2->setDebugDraw(mDebugFonts);
-	}
+	mFont2->setStrokeWidth(mStrokeWidth);
+	mText2->setKerning(mKerning);
+	mText2->setUnderline(mUnderline);
+	mText2->setFilling(mFill);
+	mText2->setKerning(mKerning);
+	mText2->setDebugDraw(mDebugFonts);
 }
 void NVPBasicTextSampleApp::draw()
 {
 	gl::clear( Color( 0, 0.1f, 0.2f ) );
 
-	if(mSetup){
-		gl::setViewport( getWindowBounds() );
-		gl::setMatricesWindow( getWindowWidth(), getWindowHeight() );
+	gl::setViewport( getWindowBounds() );
+	gl::setMatricesWindow( getWindowWidth(), getWindowHeight() );
 
-		gl::pushMatrices();
-		float yOffset = 0;
-		gl::translate(mPos);
-		for(auto mText : mTexts){
-			mText->draw(Vec2f(300,yOffset));
-			yOffset+=60;
-		}
-		gl::popMatrices();
-		mText2->draw(Vec2f(200,700.f));
-		gl::color(Color::white());
-
-		gl::translate(100,0);
-		for(auto mTex : mTexs){
-			if(mTex)
-				gl::translate(0,60);
-			gl::draw(mTex);
-		}
-		mParams.draw();
+	gl::pushMatrices();
+	float yOffset = 0;
+	gl::translate(mPos);
+	for(auto mText : mTexts){
+		mText->draw(Vec2f(300,yOffset));
+		yOffset+=60;
 	}
+	gl::popMatrices();
+	mText2->draw(Vec2f(200,700.f));
+	gl::color(Color::white());
+
+	gl::translate(100,0);
+	for(auto mTex : mTexs){
+		if(mTex)
+			gl::translate(0,60);
+		gl::draw(mTex);
+	}
+	mParams.draw();
 }
 
 CINDER_APP_BASIC( NVPBasicTextSampleApp, RendererGl(RendererGl::AA_MSAA_32 ))
