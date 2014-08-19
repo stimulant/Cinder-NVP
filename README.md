@@ -3,7 +3,7 @@ Cinder-NVP
 
 A Cinder block for using Nvidia Path extensions
 
-This block will only work on Nvidia Cards with a driver that has the Path SDK extensions. Visual studio 2012 project files are included. Should work on Linux as well. The Nvidia Path Rendering SDK uses a stencil and cover approach where the driver initially rasterizes paths to the stencil buffer and then covers the path's area with simple geometry which gives it shading capabilities. See https://developer.nvidia.com/nv-path-rendering for more info on the Nvidia Path Rendering SDK. 
+This block will only work on Nvidia Cards with a driver that has the Path SDK extensions. Visual studio 2012 project files are included. Should work on Linux as well. The Nvidia Path Rendering SDK uses a stencil and cover approach where the driver initially rasterizes paths to the stencil buffer and then covers the path's area with simple geometry which gives it shading capabilities. See https://developer.nvidia.com/nv-path-rendering for more info on the Nvidia Path Rendering SDK. For some text functionality you will need a copy of the freetype dll in your system path. I have included a .dll in the source.
 
 #Notes for building samples
 
@@ -15,7 +15,7 @@ A copy of an updated Glee.h and Glee.c is included in the source which has the a
 * Resolution independent path drawing
 * Text Field Kerning
 * Stroked text
-* Truetype and OpenType system font path loading and metrics parsing using driver’s built in freetype2 implementation
+* Truetype and OpenType system font path loading and metrics parsing using freetype2 implementation
 * Blazing fast gpu stencil buffer drawing method
 * Instanced drawing of glyphs so each font glyph is loaded only once to the gpu and then instanced for every textbox using that font (regardless of point size)
 * Very lightweight library (no source or include files, everything is in the nvidia driver)
