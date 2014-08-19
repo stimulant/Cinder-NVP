@@ -46,8 +46,7 @@ can be transformed in 3D with OpenGL matrix transforms, can be properly depth te
 * Dependency on Nvidia driver code
 
 Example image:
-
-![alt tag](https://raw.github.com/stimulant/Cinder-NVP/master/NVTextSample.png)
+![alt tag](https://raw.githubusercontent.com/stimulant/Cinder-NVP/master/NVTextSample.png)
 
 Cinder TextBox column on left. Cinder-NVP textbox column on right.
 
