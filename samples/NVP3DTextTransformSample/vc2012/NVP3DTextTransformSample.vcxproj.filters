@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="blocks">
+      <UniqueIdentifier>{bd72178c-130c-4004-8e02-f6e8420936bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="blocks\Cinder-NVP">
+      <UniqueIdentifier>{9930498c-7fea-4186-8e8b-bb37c705fc24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="blocks\Cinder-NVP\include">
+      <UniqueIdentifier>{48d0dd96-85a6-4a73-ad37-c42c40fae92e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="blocks\Cinder-NVP\src">
+      <UniqueIdentifier>{8bf16ab7-ce50-4a33-8c94-2cd759bb03c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\cinder">
+      <UniqueIdentifier>{4c281638-81ab-4adf-a366-7928f6b7eff4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\cinder\app">
+      <UniqueIdentifier>{faa53a54-a6f9-4c15-8f8c-44e4ceb2cc07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI">
+      <UniqueIdentifier>{cd442d3f-8cb1-4405-9c6c-eefa60fbd9d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\UI">
+      <UniqueIdentifier>{d8df0dd3-3ca2-485a-920c-2a0e1591088e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\UI\Node">
+      <UniqueIdentifier>{070e0c2c-9f44-442a-85e2-a17f31ce0de5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\UI\Nodes">
+      <UniqueIdentifier>{ece01e26-d1eb-48da-948b-19164bdbe893}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\Node">
+      <UniqueIdentifier>{ef9f8808-f797-4334-ba75-0d47a6b6ac06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\Nodes">
+      <UniqueIdentifier>{ededc13d-4d4b-4158-88e3-955c6bbfeec8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utils">
+      <UniqueIdentifier>{764f3e7e-a095-4589-a9ca-d6548878da17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utils">
+      <UniqueIdentifier>{4c0fe3b2-0b9c-419f-b63d-f4ed4e2d9591}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\Resources.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\..\src\src\NVPFont.cpp">
+      <Filter>blocks\Cinder-NVP\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\src\NVPTextBox.cpp">
+      <Filter>blocks\Cinder-NVP\src</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\..\src\include\NVPInit.h">
+      <Filter>blocks\Cinder-NVP\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\UI\Bounds.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\UI\TouchRect.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\UI\Node\Node.h">
+      <Filter>Header Files\UI\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\UI\Nodes\NodeText3D.h">
+      <Filter>Header Files\UI\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Utils\Globals.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\Resources.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\include\NVPFont.h">
+      <Filter>blocks\Cinder-NVP\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\include\NVPTextBox.h">
+      <Filter>blocks\Cinder-NVP\include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resources.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\src\NVPInit.cpp">
+      <Filter>blocks\Cinder-NVP\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\cinder\app\AppImplMswRendererGl.cpp">
+      <Filter>Source Files\cinder\app</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\NVP3DTextTransformSample.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\UI\Bounds.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\UI\Node\Node.cpp">
+      <Filter>Source Files\UI\Node</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\UI\Nodes\NodeText3D.cpp">
+      <Filter>Source Files\UI\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Utils\Globals.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
