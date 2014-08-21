@@ -1,19 +1,21 @@
 ﻿#include "cinder/app/AppBasic.h"
-#include "cinder/Rand.h"
-#include "NVPTextBox.h"
-#include "NVPFont.h"
 #include "cinder/params/Params.h"
 #include "cinder/Timeline.h"
-
-#include "cinder/gl/TextureFont.h"
 #include "cinder/gl/gl.h"
-#include "cinder/gl/Texture.h"
-#include "cinder/Text.h"
+#include "cinder/Camera.h"
+#include "cinder/Arcball.h"
 
-#include "Utils\Globals.h"
+#include "UI/Node/Node.h"
+#include "UI/Nodes/NodeText3D.h"
+
+#include "Utils/Globals.h"
+
+#include "NVPFont.h"
 
 using namespace ci;
 using namespace ci::app;
+using namespace ui;
+using namespace node;
 
 //! Sample app showing depth tested, 3d transformed resolution independent dynamic text fields
 class NVP3DTextTransformSampleApp : public AppBasic {
@@ -22,20 +24,26 @@ class NVP3DTextTransformSampleApp : public AppBasic {
 	void setup();
 	void draw();
 	void update();
+	void mouseDown ( ci::app::MouseEvent event );
+	void mouseDrag ( ci::app::MouseEvent event );
+	void mouseWheel ( ci::app::MouseEvent event );
 
-	std::vector<NVPTextBoxRef>		mTexts;
-	NVPTextBoxRef					mText2;
+	ci::params::InterfaceGl		mParams;
 
-	ci::params::InterfaceGl			mParams;
+	float						mKerning;
+	float						mStrokeWidth;
+	bool						mFill;
+	bool						mUnderline;
 
-	float		mKerning;
-	float		mStrokeWidth;
-	bool		mFill;
-	bool		mUnderline;
+	bool						mDebugFonts;
+	NVPFontRef					mFont;
+	Globals*					mGlobals;
+	ui::node::Node3DRef			mRoot;
 
-	bool		mDebugFonts;
-	NVPFontRef	mFont;
-    Globals*	mGlobals;
+	ci::CameraPersp				mCamera;
+	ci::Vec3f					mEyePos;
+	ci::Arcball					mArcball;
+
 };
 void NVP3DTextTransformSampleApp::prepareSettings ( Settings* settings )
 {
@@ -54,8 +62,6 @@ void NVP3DTextTransformSampleApp::setup()
 	gl::enableAlphaBlending();
 	gl::enableDepthRead();
 	gl::enableDepthWrite();
-	mFont = NVPFont::create ( std::string ( "Lato-Heavy.ttf" ), false );
-
 	mParams = ci::params::InterfaceGl ( "Parameters", Vec2i ( 250, 500 ) );
 	mKerning = 1.00f;
 	mParams.addParam ( "kerning", &mKerning, "min=0.0000 max=2.000 step=.0001" );
@@ -63,18 +69,41 @@ void NVP3DTextTransformSampleApp::setup()
 	mParams.addParam ( "underline", &mUnderline );
 	mParams.addParam ( "debug fonts", &mDebugFonts );
 	mParams.addParam ( "stroke width", &mStrokeWidth, "min=0.0000 max=2.000 step=.001" );
-	
-    mGlobals = new Globals();
+	mGlobals = new Globals();
+	mFont = NVPFont::create ( std::string ( "Lato-Heavy.ttf" ), false );
+	// Set up the camera
+	mCamera = CameraPersp ( getWindowWidth(), getWindowHeight(), 60.0f, 0.0001f, 1000.0f );
+	mCamera.setViewDirection ( Vec3f ( 0.f, 0.f, 1.f ) );
+	mEyePos = Vec3f ( 0.f, 0.f, -.9f );
+	mCamera.setEyePoint ( mEyePos );
+	// Set up the arcball
+	mArcball = Arcball ( getWindowSize() );
+	mArcball.setRadius ( ( float ) getWindowHeight() * 0.5f );
+	//set up nodes
+	mRoot = ( Node3DRef ) ( new Node3D() );
+	NodeText3DRef				mText = NodeText3D::create ( mFont, "Test!", true, 90 );
+	mRoot->addChild ( mText );
+	mRoot->treeSetup();
 }
-
+void NVP3DTextTransformSampleApp::mouseDown ( MouseEvent event )
+{
+	// Rotate with arcball
+	mArcball.mouseDown ( event.getPos() );
+}
+void NVP3DTextTransformSampleApp::mouseDrag ( MouseEvent event )
+{
+	mArcball.mouseDrag ( event.getPos() );
+}
+void NVP3DTextTransformSampleApp::mouseWheel ( MouseEvent event )
+{
+	// Zoom in/out with mouse wheel
+	Vec3f eye = mCamera.getEyePoint();
+	eye.z += event.getWheelIncrement() * 0.7f;
+	mCamera.setEyePoint ( eye );
+}
 void NVP3DTextTransformSampleApp::update()
 {
-	
-	mText2->setKerning ( mKerning );
-	mText2->setUnderline ( mUnderline );
-	mText2->setFilling ( mFill );
-	mText2->setKerning ( mKerning );
-	mText2->setDebugDraw ( mDebugFonts );
+	mCamera.setEyePoint ( mEyePos );
 }
 void NVP3DTextTransformSampleApp::draw()
 {
@@ -82,8 +111,15 @@ void NVP3DTextTransformSampleApp::draw()
 	gl::setViewport ( getWindowBounds() );
 	gl::setMatricesWindow ( getWindowWidth(), getWindowHeight() );
 	mGlobals->viewPortCached = gl::getViewport();
-    mGlobals->projMatrixCached = gl::getProjection();
-	
+	mGlobals->projMatrixCached = gl::getProjection();
+	// Use arcball to rotate model view
+	gl::setMatrices ( mCamera );
+	glMultMatrixf ( mArcball.getQuat() );
+	mRoot->treeDraw();
+	gl::setViewport ( getWindowBounds() );
+	gl::setMatricesWindow ( getWindowWidth(), getWindowHeight() );
+	gl::disableDepthRead();
+	gl::disableDepthWrite();
 	mParams.draw();
 }
 

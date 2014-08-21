@@ -2,7 +2,10 @@
 
 #include "cinder/Vector.h"
 #include "cinder/gl/gl.h"
+
 #include "UI/Node/Node.h"
+#include "NVPTextBox.h"
+#include "NVPFont.h"
 
 namespace ui {
 
@@ -14,12 +17,12 @@ typedef std::deque<NodeText3DRef>			NodeText3DList;
 class NodeText3D
 	: public node::Node3D {
   public:
-	static NodeText3DRef create()
+	static NodeText3DRef create ( ci::NVPFontRef pFont, std::string pTxt, bool pDebug, float pPointSize )
 	{
-		return ( NodeText3DRef ) ( new NodeText3D() );
+		return ( NodeText3DRef ) ( new NodeText3D ( pFont, pTxt, pDebug, pPointSize ) );
 	}
 
-	NodeText3D( );
+	NodeText3D ( ci::NVPFontRef pFont, std::string pTxt, bool pDebug, float pPointSize );
 	virtual ~NodeText3D ( void );
 
 	void setup();
@@ -27,7 +30,7 @@ class NodeText3D
 	void draw();
 
   protected:
-
+	ci::NVPTextBoxRef					mTextBox;
 };
 
 }
