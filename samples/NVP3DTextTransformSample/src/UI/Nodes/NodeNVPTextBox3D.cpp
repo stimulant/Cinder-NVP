@@ -1,98 +1,65 @@
-#pragma once
 
-#include "NVPTextBox.h"
-#include "cinder\gl\gl.h"
-#include "cinder/app/App.h"
+#include "UI/Nodes/NodeNVPTextBox3D.h"
+
+#include "cinder/app/AppBasic.h"
+#include "cinder/Utilities.h"
+
+using namespace ci;
+using namespace ci::app;
+using namespace ui::node;
+using namespace ui;
 
 using namespace std;
-using namespace cinder;
 
-namespace cinder {
-
-
-NVPTextBox::NVPTextBox() : mInvalid ( true ), mDebugDraw ( false ), mUnderline ( false ), mFontPt ( 12 ), sRGB_capable ( 0 ), hasFramebufferSRGB ( 1 ), emScale ( 2048 ), mFilling ( 1 ), mRegularAspect ( 1 ), mFillGradient ( 1 ), mFillColor ( 1, 1, 1, 1 ), mStrokeColor ( 0.f, 0.f, 0.f, 1 ), mKerningFactor ( 1.f ), mDrawBoundingBox ( false ), mDrawGlyphBounds ( false )
+NodeNVPTextBox3D::NodeNVPTextBox3D ( NVPFontRef pFont, string pTxt, bool pDebug, float pPointSize )
 {
-	if ( hasFramebufferSRGB ) {
-		glGetIntegerv ( GL_FRAMEBUFFER_SRGB_CAPABLE_EXT, &sRGB_capable );
-
-		if ( sRGB_capable ) {
-			glEnable ( GL_FRAMEBUFFER_SRGB_EXT );
-		}
-	}
-
-	//nvidia path specific depth testing params
-	GLfloat slope = -0.05f;
-	GLfloat bias = -1.0f;
-	glPathStencilDepthOffsetNV ( slope, bias );
-	glPathCoverDepthFuncNV ( GL_ALWAYS );
-	xtranslate = NULL;
+	NVPTextBox::NVPTextBox();
+	mFont = pFont;
+	mText = pTxt;
+	mDebugDraw = pDebug;
+	mFontPt = pPointSize;
+	render();
 }
-void NVPTextBox::render()
+
+NodeNVPTextBox3D::~NodeNVPTextBox3D ( void )
 {
-	/* Query spacing information for example's message. */
-	mMessageLen = strlen ( mText.c_str() );
-
-	if ( xtranslate != NULL ) {
-		free ( xtranslate );
-		xtranslate = NULL;
-	}
-
-	xtranslate = ( GLfloat* ) malloc ( sizeof ( GLfloat ) * mMessageLen );
-
-	if ( !xtranslate ) {
-		ci::app::console() << " malloc of xtranslate failed" << endl;
-		exit ( 1 );
-	}
-
-	xtranslate[0] = 0.0;  /* Initial xtranslate is zero. */
-	GLfloat advanceScale = 1.0f * mKerningFactor,
-	        kerningScale = 1.0f * mKerningFactor; /* Set this to zero to ignore kerning. */
-	glGetPathSpacingNV ( GL_ACCUM_ADJACENT_PAIRS_NV,
-	                     ( GLsizei ) mMessageLen, GL_UNSIGNED_BYTE, mText.c_str(),
-	                     mFont->getGlyphs(),
-	                     advanceScale, kerningScale,
-	                     GL_TRANSLATE_X_NV,
-	                     &xtranslate[1] ); /* messageLen-1 accumulated translates are written here. */
-	/* Total advance is accumulated spacing plus horizontal advance of
-	the last glyph */
-	float lastX = xtranslate[mMessageLen - 1];
-	const unsigned char* message_ub = ( const unsigned char* ) mText.c_str();
-	int charIndex = message_ub[mMessageLen - 1];
-	float totalLen = mFont->getGlyphMetrics()->mHorizontalAdvance[charIndex];
-	mTotalAdvance = lastX + totalLen;
-	mXBorder = mTotalAdvance / mMessageLen;
-	mInitialOffset = mFont->getGlyphMetrics()->mHorizontalBearingX[mText.c_str() [0]];
-	mInvalid = false;
-	float maxHeight = 0;
-
-	for ( int i = 0; i < int ( mMessageLen ); i++ ) {
-		int charInd = mText.c_str() [i];
-		float glyphHeight = mFont->getGlyphMetrics()->mGlyphHeight[charInd];
-
-		if ( glyphHeight > maxHeight )
-			maxHeight = glyphHeight;
-	}
-
-	mBounds = Rectf ( 0, 0, mTotalAdvance, maxHeight );
 }
-void	NVPTextBox::draw ( Vec2f offset )
+
+void NodeNVPTextBox3D::setup()
+{
+	Node3D::setup();
+}
+
+void NodeNVPTextBox3D::update ( double elapsed )
+{
+	Node3D::update(elapsed);
+}
+void NodeNVPTextBox3D::render()
+{
+	NVPTextBox::render();
+	float pixelSize = mFontPt;
+	float resolution = NVPTextBox::DPI;
+	float fScale = mFontPt * resolution / ( DPI * emScale );
+	//not sure why this scale is needed to match point size?
+	float fscal = fScale * .75f;
+	setScale(fscal);
+}
+void NodeNVPTextBox3D::draw()
 {
 	if ( mInvalid )
 		render();
 
+	gl::translate ( getAnchor() );
+	gl::color ( Color ( 1, 0, 0 ) );
+	gl::drawCoordinateFrame ( .1, .01, .01 );
+	gl::translate ( -getAnchor() );
+
 	if ( mFont ) {
-		float pixelSize = mFontPt;
-		float resolution = DPI;
-		float fScale = mFontPt * resolution / ( DPI * emScale );
-		//not sure why this scale is needed to match point size?
-		float fscal = fScale * .75f;
 		glEnable ( GL_STENCIL_TEST );
 		glStencilFunc ( GL_NOTEQUAL, 0, ~0 );
 		glStencilOp ( GL_KEEP, GL_KEEP, GL_ZERO );
 		glStencilMask ( 0xFFFFFFFF );
 		gl::pushMatrices();
-		gl::translate ( offset );
-		gl::scale ( fscal, -fscal, fscal );
 		NVPFont::FontMetrics metrics = mFont->getFontMetrics();
 
 		if ( mUnderline ) {
@@ -172,11 +139,9 @@ void	NVPTextBox::draw ( Vec2f offset )
 			gl::drawSolidCircle ( Vec2f ( 0.f, 0.f ), 100 );
 			glEnable ( GL_STENCIL_TEST );
 		}
-
+		
 		gl::popMatrices();
 		glDisable ( GL_STENCIL_TEST );
+		gl::drawStrokedRect(mBounds);
 	}
 }
-
-
-} // namespace cinder

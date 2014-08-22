@@ -113,7 +113,7 @@
     <ClCompile Include="..\src\cinder\app\AppImplMswRendererGl.cpp" />
     <ClCompile Include="..\src\NVP3DTextTransformSample.cpp" />
     <ClCompile Include="..\src\UI\Bounds.cpp" />
-    <ClCompile Include="..\src\UI\Nodes\NodeText3D.cpp" />
+    <ClCompile Include="..\src\UI\Nodes\NodeNVPTextBox3D.cpp" />
     <ClCompile Include="..\src\UI\Node\Node.cpp" />
     <ClCompile Include="..\src\Utils\Globals.cpp" />
   </ItemGroup>
@@ -123,7 +123,7 @@
     <ClInclude Include="..\..\..\src\include\NVPTextBox.h" />
     <ClInclude Include="..\include\Resources.h" />
     <ClInclude Include="..\include\UI\Bounds.h" />
-    <ClInclude Include="..\include\UI\Nodes\NodeText3D.h" />
+    <ClInclude Include="..\include\UI\Nodes\NodeNVPTextBox3D.h" />
     <ClInclude Include="..\include\UI\Node\Node.h" />
     <ClInclude Include="..\include\UI\TouchRect.h" />
     <ClInclude Include="..\include\Utils\Globals.h" />

@@ -78,11 +78,11 @@
     <ClInclude Include="..\include\UI\Node\Node.h">
       <Filter>Header Files\UI\Node</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\UI\Nodes\NodeText3D.h">
-      <Filter>Header Files\UI\Nodes</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\Utils\Globals.h">
       <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\UI\Nodes\NodeNVPTextBox3D.h">
+      <Filter>Header Files\UI\Nodes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -117,11 +117,11 @@
     <ClCompile Include="..\src\UI\Node\Node.cpp">
       <Filter>Source Files\UI\Node</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\UI\Nodes\NodeText3D.cpp">
-      <Filter>Source Files\UI\Nodes</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\Utils\Globals.cpp">
       <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\UI\Nodes\NodeNVPTextBox3D.cpp">
+      <Filter>Source Files\UI\Nodes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

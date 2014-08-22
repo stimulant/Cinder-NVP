@@ -2,7 +2,6 @@
 
 #include "cinder/Cinder.h"
 #include "cinder/Surface.h"
-#include "cinder/Font.h"
 #include "cinder/Vector.h"
 #include "cinder\gl\gl.h"
 
@@ -20,6 +19,8 @@ typedef boost::shared_ptr<class NVPTextBox>	NVPTextBoxRef;
 
 class NVPTextBox {
   public:
+
+	static const int DPI = 72;
 
 	static NVPTextBoxRef create()
 	{
@@ -48,6 +49,7 @@ class NVPTextBox {
 	void						setFont ( const NVPFontRef &pFont ) { mFont = pFont; mInvalid = true;}
 	void						setFontPt ( float pSize ) { mFontPt = pSize;}
 	float						getFontPt() const { return mFontPt; }
+	ci::Rectf					getBounds() { return mBounds; }
 	//! draws the bounding boxes of each glyph and the bounds of the font's ascender and descender range
 	virtual void				setDebugDraw ( bool pDraw ) { mDebugDraw = pDraw; }
 
@@ -84,6 +86,8 @@ class NVPTextBox {
 	bool			mDebugDraw;
 	//horizontal offset between the x position and the first glyph
 	float			mInitialOffset;
+
+	ci::Rectf		mBounds;
 
 };
 
