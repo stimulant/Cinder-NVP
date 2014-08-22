@@ -1,7 +1,7 @@
 #pragma once
 
-#include "cinder/Utilities.h"
-#include "cinder/app/App.h"
+#include "cinder/Area.h"
+#include "cinder/Matrix.h"
 
 class Globals
 {

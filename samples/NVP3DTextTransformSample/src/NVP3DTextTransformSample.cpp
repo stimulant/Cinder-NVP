@@ -30,6 +30,7 @@ class NVP3DTextTransformSampleApp : public AppBasic {
 	void mouseDrag ( ci::app::MouseEvent event );
 	void mouseWheel ( ci::app::MouseEvent event );
 
+	void addText(string pTxt);
 	ci::params::InterfaceGl		mParams;
 
 	float						mKerning;
@@ -45,11 +46,14 @@ class NVP3DTextTransformSampleApp : public AppBasic {
 	ci::CameraPersp						mCamera;
 	ci::Vec3f							mEyePos;
 	ci::Arcball							mArcball;
-	std::vector<NodeNVPTextBox3DRef>	mTexts;
+	std::vector<std::vector<NodeNVPTextBox3DRef>>	mTexts;
 
-	std::vector<ci::Anim<float>>			mRots;
-	std::vector<float>						mTargetRots;
+	std::vector<ci::Anim<float>>		mRots;
+	std::vector<float>					mTargetRots;
 
+	float								mSpawnTime;
+	int									mCurTxt;
+	std::vector<string>					mStrings;
 };
 void NVP3DTextTransformSampleApp::prepareSettings ( Settings* settings )
 {
@@ -84,32 +88,64 @@ void NVP3DTextTransformSampleApp::setup()
 	mArcball.setRadius ( ( float ) getWindowHeight() * 0.5f );
 	//set up nodes
 	mRoot = ( Node3DRef ) ( new Node3D() );
-	std::vector<string> mStrings;
-	mStrings.push_back("Juan");
-	mStrings.push_back("Kevin");
-	mStrings.push_back("Derrick");
-	mStrings.push_back("Shake");
-	mStrings.push_back("Carl");
-	mStrings.push_back("Moody");
-	mStrings.push_back("Terrence");
-	mStrings.push_back("Aron");
-	mStrings.push_back("Keith");
-	mStrings.push_back("Juan");
+
+	float mFontPt = 10;
+	float emScale = 2048;
+	float resolution = NVPTextBox::DPI;
+	float fScale = mFontPt * resolution / ( NVPTextBox::DPI * emScale );
+	//not sure why this scale is needed to match point size?
+	float fscal = fScale * .75f;
+	mRoot->setScale(fscal);
+
+	mStrings.push_back("JUAN");
+	mStrings.push_back("KEVIN");
+	mStrings.push_back("DERRICK");
+	mStrings.push_back("JEFF");
+	mStrings.push_back("SHAKE");
+	mStrings.push_back("CARL");
+	mStrings.push_back("MIKE");
+	mStrings.push_back("BUZZ");
+	mStrings.push_back("AARON");
+	mStrings.push_back("KEITH");
 	NodeNVPTextBox3DRef	txt = NodeNVPTextBox3D::create ( mFont, mStrings[0], false, 10 );
 	mRoot->addChild ( txt );
-	mTexts.push_back ( txt );
-	NodeNVPTextBox3DRef lastText = txt;
-	for(int i=1; i<100;i++){
-		NodeNVPTextBox3DRef	mText = NodeNVPTextBox3D::create ( mFont, mStrings[i%10], false, 10 );
-		mText->setAnchor( -mText->getBounds().getWidth(), 0.f, 0.f );
-		mText->setRotation( Vec3f( 0, 1, 0 ), toRadians( ci::randFloat(5,85) ) );
-		mTexts[0]->addChild ( mText );
-		mTexts.push_back ( mText );
-		mRots.push_back( 0 );
-		mTargetRots.push_back( 0 );
-		lastText = mText;
-	}
+	std::vector<NodeNVPTextBox3DRef> texts;
+	texts.push_back ( txt );
+	mTexts.push_back(texts);
+	mTargetRots.push_back(0);
+	mRots.push_back(0);
+	mSpawnTime = .83f;
+	mCurTxt = 1;
+	string nextWord = mStrings[mCurTxt];
+	timeline().add( [this, nextWord]
+    {
+        addText(nextWord);
+    }, timeline().getCurrentTime() + mSpawnTime );
+
+	
 	mRoot->treeSetup();
+}
+void NVP3DTextTransformSampleApp::addText(string pTxt){
+	
+	NodeNVPTextBox3DRef	mText = NodeNVPTextBox3D::create ( mFont, pTxt, false, 10 );
+	NodeNVPTextBox3DRef	lastText = mTexts[mCurTxt-1];
+	mText->setPosition( lastText->getBounds().getWidth(), 0.f, 0.f );
+	ci::Anim<float> rot = 0;
+	float rotval = ci::randFloat(-90,90);
+	mTargetRots.push_back(rotval);
+	//timeline().apply(&rot,0.f,rotval,.3,EaseInBack()).updateFn([rot,mText]{
+		 
+	//});
+	
+	lastText->addChild ( mText );
+	mTexts.push_back ( mText );
+	mRots.push_back( 180 );
+	mCurTxt++;
+	string nextWord = mStrings[mCurTxt%10];
+	timeline().add( [this, nextWord]
+    {
+        addText(nextWord);
+    }, timeline().getCurrentTime() + mSpawnTime );
 }
 void NVP3DTextTransformSampleApp::mouseDown ( MouseEvent event )
 {
@@ -124,12 +160,17 @@ void NVP3DTextTransformSampleApp::mouseWheel ( MouseEvent event )
 {
 	// Zoom in/out with mouse wheel
 	Vec3f eye = mCamera.getEyePoint();
-	eye.z += event.getWheelIncrement() * 0.7f;
+	eye.z += event.getWheelIncrement() * 5.f;
 	mCamera.setEyePoint ( eye );
 }
 void NVP3DTextTransformSampleApp::update()
 {
-	mCamera.setEyePoint ( mEyePos );
+	int i = 0;
+	for(auto txt : mTexts){
+		mRots[i] = (mTargetRots[i]-mRots[i])*.01+mRots[i];
+		txt->setRotation( Vec3f( 0, 1, 0 ), toRadians(mRots[i]) );
+		i++;
+	}
 	mRoot->treeUpdate();
 }
 void NVP3DTextTransformSampleApp::draw()

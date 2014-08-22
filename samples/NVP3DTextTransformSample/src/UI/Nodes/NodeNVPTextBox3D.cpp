@@ -37,12 +37,7 @@ void NodeNVPTextBox3D::update ( double elapsed )
 void NodeNVPTextBox3D::render()
 {
 	NVPTextBox::render();
-	float pixelSize = mFontPt;
-	float resolution = NVPTextBox::DPI;
-	float fScale = mFontPt * resolution / ( DPI * emScale );
-	//not sure why this scale is needed to match point size?
-	float fscal = fScale * .75f;
-	setScale(fscal);
+	
 }
 void NodeNVPTextBox3D::draw()
 {
@@ -59,7 +54,6 @@ void NodeNVPTextBox3D::draw()
 		glStencilFunc ( GL_NOTEQUAL, 0, ~0 );
 		glStencilOp ( GL_KEEP, GL_KEEP, GL_ZERO );
 		glStencilMask ( 0xFFFFFFFF );
-		gl::pushMatrices();
 		NVPFont::FontMetrics metrics = mFont->getFontMetrics();
 
 		if ( mUnderline ) {
@@ -140,8 +134,7 @@ void NodeNVPTextBox3D::draw()
 			glEnable ( GL_STENCIL_TEST );
 		}
 		
-		gl::popMatrices();
 		glDisable ( GL_STENCIL_TEST );
-		gl::drawStrokedRect(mBounds);
+		//gl::drawStrokedRect(mBounds);
 	}
 }
