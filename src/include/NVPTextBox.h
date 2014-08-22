@@ -4,7 +4,7 @@
 #include "cinder/Surface.h"
 #include "cinder/Font.h"
 #include "cinder/Vector.h"
-#include "cinder\gl\gl.h"
+#include "cinder/gl/gl.h"
 
 #include <vector>
 #include <deque>

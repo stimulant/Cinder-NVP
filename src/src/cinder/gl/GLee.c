@@ -40,7 +40,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "cinder\gl\GLee.h"
+#include "cinder/gl/GLee.h"
 
 #if defined(__APPLE__) || defined(__APPLE_CC__)
 #define GLEE_USE_SDL

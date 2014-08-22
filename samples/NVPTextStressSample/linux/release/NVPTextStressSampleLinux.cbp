@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+   <FileVersion major="1" minor="6" />
+   <Project>
+      <Option title="NVPTextStressSampleLinux" />
+      <Option makefile_is_custom="1" />
+      <Option compiler="gcc" />
+      <Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\Cinder\;CMake Files\..\..\..\Cinder\CMakeModules\;" />
+      <Build>
+      <Target title="all">
+         <Option working_dir="/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release/Makefile&quot;  VERBOSE=1 all" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="NVPTextStressSampleLinux">
+         <Option output="/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release/bin/NVPTextStressSampleLinux" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release/bin" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample" />
+            <Add directory="/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/../../src/include" />
+            <Add directory="/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/include" />
+            <Add directory="/home/ubuntu/Cinder/boost" />
+            <Add directory="/home/ubuntu/Cinder/include" />
+            <Add directory="/home/ubuntu/Cinder/lib/linux/glfw/include" />
+            <Add directory="/home/ubuntu/Cinder/src/AntTweakBar" />
+            <Add directory="/home/ubuntu/Cinder/src/libtess2" />
+            <Add directory="/home/ubuntu/Cinder/src/linebreak" />
+            <Add directory="/usr/include" />
+            <Add directory="/usr/include/arm-linux-gnueabihf" />
+            <Add directory="/usr/include/arm-linux-gnueabihf/c++/4.8" />
+            <Add directory="/usr/include/c++/4.8" />
+            <Add directory="/usr/include/c++/4.8/backward" />
+            <Add directory="/usr/lib/gcc/arm-linux-gnueabihf/4.8/include" />
+            <Add directory="/usr/lib/gcc/arm-linux-gnueabihf/4.8/include-fixed" />
+            <Add directory="/usr/local/include" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release/Makefile&quot;  VERBOSE=1 NVPTextStressSampleLinux" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="NVPTextStressSampleLinux/fast">
+         <Option output="/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release/bin/NVPTextStressSampleLinux" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release/bin" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample" />
+            <Add directory="/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/../../src/include" />
+            <Add directory="/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/include" />
+            <Add directory="/home/ubuntu/Cinder/boost" />
+            <Add directory="/home/ubuntu/Cinder/include" />
+            <Add directory="/home/ubuntu/Cinder/lib/linux/glfw/include" />
+            <Add directory="/home/ubuntu/Cinder/src/AntTweakBar" />
+            <Add directory="/home/ubuntu/Cinder/src/libtess2" />
+            <Add directory="/home/ubuntu/Cinder/src/linebreak" />
+            <Add directory="/usr/include" />
+            <Add directory="/usr/include/arm-linux-gnueabihf" />
+            <Add directory="/usr/include/arm-linux-gnueabihf/c++/4.8" />
+            <Add directory="/usr/include/c++/4.8" />
+            <Add directory="/usr/include/c++/4.8/backward" />
+            <Add directory="/usr/lib/gcc/arm-linux-gnueabihf/4.8/include" />
+            <Add directory="/usr/lib/gcc/arm-linux-gnueabihf/4.8/include-fixed" />
+            <Add directory="/usr/local/include" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release/Makefile&quot;  VERBOSE=1 NVPTextStressSampleLinux/fast" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="install">
+         <Option working_dir="/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release/Makefile&quot;  VERBOSE=1 install" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="install/local">
+         <Option working_dir="/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release/Makefile&quot;  VERBOSE=1 install/local" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="install/strip">
+         <Option working_dir="/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release/Makefile&quot;  VERBOSE=1 install/strip" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="list_install_components">
+         <Option working_dir="/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release/Makefile&quot;  VERBOSE=1 list_install_components" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="rebuild_cache">
+         <Option working_dir="/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release/Makefile&quot;  VERBOSE=1 rebuild_cache" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      </Build>
+      <Unit filename="/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/src/Cinder-NVP/NVPTextBoxTest.cpp">
+      </Unit>
+      <Unit filename="/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/src/Globals.cpp">
+      </Unit>
+      <Unit filename="/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/src/NVPTextStressSample.cpp">
+      </Unit>
+      <Unit filename="/home/ubuntu/Cinder-NVP/src/src/NVPFont.cpp">
+      </Unit>
+      <Unit filename="/home/ubuntu/Cinder-NVP/src/src/NVPTextBox.cpp">
+      </Unit>
+      <Unit filename="/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/include/Cinder-NVP/NVPTextBoxTest.h">
+      </Unit>
+      <Unit filename="/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/include/Globals.h">
+      </Unit>
+      <Unit filename="/home/ubuntu/Cinder-NVP/src/include/NVPFont.h">
+      </Unit>
+      <Unit filename="/home/ubuntu/Cinder-NVP/src/include/NVPTextBox.h">
+      </Unit>
+      <Unit filename="/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\" />
+      </Unit>
+      <Unit filename="/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/../../../Cinder/CMakeModules/CinderInclude.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\Cinder\CMakeModules\" />
+      </Unit>
+      <Unit filename="/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/../../../Cinder/CMakeModules/CinderDepends.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\Cinder\CMakeModules\" />
+      </Unit>
+   </Project>
+</CodeBlocks_project_file>

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Cinder-NVP\NVPTextBoxTest.h"
+#include "Cinder-NVP/NVPTextBoxTest.h"
 #include "cinder/app/App.h"
 #include "Globals.h"
 using namespace std;
@@ -13,7 +13,7 @@ static const float DPI = 72.f;
 
 NVPTextBoxTest::NVPTextBoxTest() : mLife ( 0 ), mProcessing ( true )
 {
-	NVPTextBox::NVPTextBox();
+	NVPTextBox();
 }
 void	NVPTextBoxTest::draw ( Vec2f offset )
 {

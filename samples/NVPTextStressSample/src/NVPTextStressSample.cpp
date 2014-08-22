@@ -1,8 +1,7 @@
 ﻿#include "cinder/app/AppBasic.h"
 #include "cinder/Rand.h"
-#include "Cinder-NVP\NVPTextBoxTest.h"
+#include "Cinder-NVP/NVPTextBoxTest.h"
 #include "NVPFont.h"
-#include "cinder/params/Params.h"
 #include "cinder/Timeline.h"
 #include "cinder/Rand.h"
 #include "cinder/gl/TextureFont.h"
@@ -31,7 +30,6 @@ class NVPTextStressSampleApp : public AppBasic {
 
 	std::vector<NVPTextBoxTestRef>		mTexts;
 
-	ci::params::InterfaceGl			mParams;
 
 	ci::Anim<Vec2f>		mPos;
 	float		mScale;
@@ -104,18 +102,10 @@ void NVPTextStressSampleApp::setup()
 	mPosParam = Vec3f ( 0, 303.f, 0 );
 	mScaleParam = 70.f;
 	mScaleVal = 90.f;
-	mParams = ci::params::InterfaceGl ( "Parameters", Vec2i ( 250, 500 ) );
 	mKerning = 1.00f;
 	mRandSpeed = 5;
 	xWrap = 2190;
-	mParams.addParam ( "mMaxLife", &Globals::get()->maxLife ).min ( 0 ).max ( 100 ).step ( 1 );
-	mParams.addParam ( "lifeColor r", &Globals::get()->lifeColor.r ).step ( .01 );
-	mParams.addParam ( "lifeColor g", &Globals::get()->lifeColor.g ).step ( .01 );
-	mParams.addParam ( "lifeColor b", &Globals::get()->lifeColor.b ).step ( .01 );
-	mParams.addParam ( "lifetime", &Globals::get()->maxLife ).step ( .01 );
-	mParams.addParam ( "hueSpread", &Globals::get()->hueSpread ).step ( .01 );
-	mParams.addParam ( "satSpread", &Globals::get()->satSpread ).step ( .01 );
-	mParams.addParam ( "valSpread", &Globals::get()->valSpread ).step ( .01 );
+	
 }
 void NVPTextStressSampleApp::startTimeline()
 {

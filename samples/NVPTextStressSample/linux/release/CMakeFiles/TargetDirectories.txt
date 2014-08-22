@@ -1,0 +1,1 @@
+/home/ubuntu/Cinder-NVP/samples/NVPTextStressSample/linux/release/CMakeFiles/NVPTextStressSampleLinux.dir

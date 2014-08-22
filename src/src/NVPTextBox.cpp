@@ -1,7 +1,7 @@
 #pragma once
 
 #include "NVPTextBox.h"
-#include "cinder\gl\gl.h"
+#include "cinder/gl/gl.h"
 #include "cinder/app/App.h"
 
 using namespace std;

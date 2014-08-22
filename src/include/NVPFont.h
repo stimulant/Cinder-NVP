@@ -1,7 +1,7 @@
 #pragma once
 #include "cinder/Cinder.h"
 #include <string>
-#include "cinder\gl\gl.h"
+#include "cinder/gl/gl.h"
 
 
 namespace cinder {

@@ -14,12 +14,12 @@ class NVPTextBoxTest : public NVPTextBox {
 	{
 		return ( NVPTextBoxTestRef ) ( new NVPTextBoxTest() );
 	}
-	NVPTextBoxTest::NVPTextBoxTest();
+	NVPTextBoxTest();
 	int		getLife() { return mLife; }
 	void	setLife ( float pLife ) { mLife = pLife; }
 	bool	getProcessing() { return mProcessing; }
 	void	setProcessing ( bool pProc ) { mProcessing = pProc; }
-	void	NVPTextBoxTest::draw ( Vec2f offset );
+	void	draw ( Vec2f offset );
   private:
 	int mLife;
 	Color mMixedColor;
