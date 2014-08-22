@@ -46,7 +46,7 @@ void NodeNVPTextBox3D::draw()
 
 	gl::translate ( getAnchor() );
 	gl::color ( Color ( 1, 0, 0 ) );
-	gl::drawCoordinateFrame ( .1, .01, .01 );
+	//gl::drawCoordinateFrame ( .1, .01, .01 );
 	gl::translate ( -getAnchor() );
 
 	if ( mFont ) {
