@@ -19,6 +19,107 @@ using namespace ui;
 using namespace node;
 using namespace std;
 
+
+namespace nvp {
+
+class TextStrip;
+typedef boost::shared_ptr<class TextStrip>	TextStripRef;
+class TextStrip : public node::Node3D {
+  public:
+
+	static TextStripRef create ( NVPFontRef	pFont )
+	{
+		return ( TextStripRef ) ( new TextStrip ( pFont ) );
+	}
+	TextStrip ( NVPFontRef	pFont )
+	{
+		mFontRef = pFont;
+		mStrings.push_back ( "JUAN" );
+		mStrings.push_back ( "KEVIN" );
+		mStrings.push_back ( "DERRICK" );
+		mStrings.push_back ( "JEFF" );
+		mStrings.push_back ( "SHAKE" );
+		mStrings.push_back ( "CARL" );
+		mStrings.push_back ( "MIKE" );
+		mStrings.push_back ( "BUZZ" );
+		mStrings.push_back ( "AARON" );
+		mStrings.push_back ( "KEITH" );
+		mSpawnTime = .4f;
+		mMaxTxt = 14;
+	};
+
+	void start()
+	{
+		mReset = 0;
+		mCurTxt = 0;
+		mTexts.clear();
+		mTexts.clear();
+		string nextWord = mStrings[mCurTxt % mStrings.size()];
+		addText ( nextWord );
+		timeline().add ( [this] {
+			for(auto txt : mTexts){
+				auto pitch = txt->getRotation();
+				float test = pitch.getYaw();
+				test = toDegrees(test);
+				txt->setTargetRot ( test, 180.f );
+			}
+			start();
+		}, timeline().getCurrentTime() + 5.5f );
+	}
+
+	void addText ( std::string pTxt )
+	{
+		NodeNVPTextBox3DRef	mText = NodeNVPTextBox3D::create ( mFontRef, pTxt, false, 10 );
+
+		if ( mTexts.size() == 0 ) {
+			mText->setPosition ( 0.f, 0.f, 0 );
+			addChild ( mText );
+		}
+		else {
+			NodeNVPTextBox3DRef	lastText = mTexts[mCurTxt - 1];
+			mText->setPosition ( lastText->getBounds().getWidth(), 0.f, 0 );
+			lastText->addChild ( mText );
+		}
+
+		int rotval = ci::randInt ( 0, 2 );
+
+		if ( mCurTxt < mMaxTxt / 2 )
+			rotval = -rotval;
+
+		mText->setRotation ( Vec3f ( 0, 1, 0 ), toRadians ( 180.f ) );
+		mText->setTargetRot ( 180.f, rotval * 45.f );
+		timeline().apply ( &mText->mLife, 1.f, .2f, ci::EaseOutQuad() ).finishFn ( [ &, mText] {
+			//timeline().apply(&mText->getLife(),0.f,.3f,ci::EaseInBounce()).delay(2.f);
+		} );
+		mTexts.push_back ( mText );
+
+		if ( mCurTxt < mMaxTxt ) {
+			string nextWord = mStrings[mCurTxt % mStrings.size()];
+			timeline().add ( [this, nextWord] {
+				addText ( nextWord );
+			}, timeline().getCurrentTime() + mSpawnTime );
+			mCurTxt++;
+		}
+	}
+	void update ( double elapsed = 0.0 )
+	{
+	};
+
+  private:
+	std::vector<ci::Anim<float>>		mRots;
+	std::vector<float>					mTargetRots;
+	int									mCurTxt;
+	NVPFontRef							mFontRef;
+	std::vector<NodeNVPTextBox3DRef>	mTexts;
+	std::vector<string>					mStrings;
+	float								mSpawnTime;
+	int									mMaxTxt;
+	int									mReset;
+};
+}
+
+using namespace nvp;
+
 //! Sample app showing depth tested, 3d transformed resolution independent dynamic text fields
 class NVP3DTextTransformSampleApp : public AppBasic {
   public:
@@ -30,7 +131,6 @@ class NVP3DTextTransformSampleApp : public AppBasic {
 	void mouseDrag ( ci::app::MouseEvent event );
 	void mouseWheel ( ci::app::MouseEvent event );
 
-	void addText(string pTxt);
 	ci::params::InterfaceGl		mParams;
 
 	float						mKerning;
@@ -46,14 +146,10 @@ class NVP3DTextTransformSampleApp : public AppBasic {
 	ci::CameraPersp						mCamera;
 	ci::Vec3f							mEyePos;
 	ci::Arcball							mArcball;
-	std::vector<std::vector<NodeNVPTextBox3DRef>>	mTexts;
-
-	std::vector<ci::Anim<float>>		mRots;
-	std::vector<float>					mTargetRots;
+	std::vector<string>					mStrings;
+	std::vector<TextStripRef>			mStrips;
 
 	float								mSpawnTime;
-	int									mCurTxt;
-	std::vector<string>					mStrings;
 	int									mNumRows;
 };
 void NVP3DTextTransformSampleApp::prepareSettings ( Settings* settings )
@@ -89,76 +185,35 @@ void NVP3DTextTransformSampleApp::setup()
 	mArcball.setRadius ( ( float ) getWindowHeight() * 0.5f );
 	//set up nodes
 	mRoot = ( Node3DRef ) ( new Node3D() );
-
 	float mFontPt = 10;
 	float emScale = 2048;
 	float resolution = NVPTextBox::DPI;
 	float fScale = mFontPt * resolution / ( NVPTextBox::DPI * emScale );
 	//not sure why this scale is needed to match point size?
 	float fscal = fScale * .75f;
-	mRoot->setScale(fscal);
+	mRoot->setScale ( fscal );
+	mNumRows = 16;
 
-	mStrings.push_back("JUAN");
-	mStrings.push_back("KEVIN");
-	mStrings.push_back("DERRICK");
-	mStrings.push_back("JEFF");
-	mStrings.push_back("SHAKE");
-	mStrings.push_back("CARL");
-	mStrings.push_back("MIKE");
-	mStrings.push_back("BUZZ");
-	mStrings.push_back("AARON");
-	mStrings.push_back("KEITH");
-	
-	mNumRows = 50;
-
-	for(int i=0;i<mNumRows;i++){
-		NodeNVPTextBox3DRef	txt = NodeNVPTextBox3D::create ( mFont, mStrings[0], false, 10 );
-		txt->setPosition( 0, i*1400, 0.f );
-		mRoot->addChild ( txt );
-		std::vector<NodeNVPTextBox3DRef> texts;
-		texts.push_back ( txt );
-		mTexts.push_back(texts);
+	for ( int i = 0; i < mNumRows; i++ ) {
+		TextStripRef strip = TextStrip::create ( mFont );
+		mRoot->addChild ( strip );
+		strip->setPosition ( 0, i * 1200, 0 );
+		strip->start();
+		mStrips.push_back ( strip );
 	}
-	
 
-	mTargetRots.push_back(0);
-	mRots.push_back(0);
-	mSpawnTime = 1.3f;
-	mCurTxt = 1;
-	string nextWord = mStrings[mCurTxt];
-	timeline().add( [this, nextWord]
-    {
-        addText(nextWord);
-    }, timeline().getCurrentTime() + mSpawnTime );
+	for ( auto strip : mStrips )
+	{
+		strip->start();
+		console() << "mstrips start" << endl;
+	}
 
-	
+	timeline().add ( [&] {
+		
+	}, timeline().getCurrentTime() + 13.f )->setLoop ( true );
 	mRoot->treeSetup();
 }
-void NVP3DTextTransformSampleApp::addText(string pTxt){
-	for(int i=0;i<mNumRows;i++){
-		std::vector<NodeNVPTextBox3DRef>& texts = mTexts[i];
-		NodeNVPTextBox3DRef	mText = NodeNVPTextBox3D::create ( mFont, pTxt, false, 10 );
-		NodeNVPTextBox3DRef	lastText = texts[mCurTxt-1];
-		mText->setPosition( lastText->getBounds().getWidth(), 0.f, 0 );
-		ci::Anim<float> rot = 0;
-		float rotval = ci::randFloat(-90,90);
-		mTargetRots.push_back(rotval);
-		//timeline().apply(&rot,0.f,rotval,.3,EaseInBack()).updateFn([rot,mText]{
-		 
-		//});
-	
-		lastText->addChild ( mText );
-		texts.push_back ( mText );
-		mRots.push_back( 180 );
-		
-	}
-	string nextWord = mStrings[mCurTxt%10];
-	timeline().add( [this, nextWord]
-	{
-		addText(nextWord);
-	}, timeline().getCurrentTime() + mSpawnTime );
-	mCurTxt++;
-}
+
 void NVP3DTextTransformSampleApp::mouseDown ( MouseEvent event )
 {
 	// Rotate with arcball
@@ -177,16 +232,6 @@ void NVP3DTextTransformSampleApp::mouseWheel ( MouseEvent event )
 }
 void NVP3DTextTransformSampleApp::update()
 {
-	
-	for(int i=0;i<mNumRows;i++){
-		std::vector<NodeNVPTextBox3DRef> texts = mTexts[i];
-		int j = 0;
-		for(auto txt : texts){
-			mRots[j] = (mTargetRots[j]-mRots[j])*.01+mRots[j];
-			txt->setRotation( Vec3f( 0, 1, 0 ), toRadians(mRots[j]) );
-			j++;
-		}
-	}
 	mRoot->treeUpdate();
 }
 void NVP3DTextTransformSampleApp::draw()
@@ -203,7 +248,6 @@ void NVP3DTextTransformSampleApp::draw()
 	mGlobals->projMatrixCached = gl::getProjection();
 	glMultMatrixf ( mArcball.getQuat() );
 	mRoot->treeDraw();
-	
 	//gl::setViewport ( getWindowBounds() );
 	//gl::setMatricesWindow ( getWindowWidth(), getWindowHeight() );
 	gl::disableDepthRead();

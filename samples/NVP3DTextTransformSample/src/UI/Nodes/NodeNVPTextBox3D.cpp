@@ -19,6 +19,7 @@ NodeNVPTextBox3D::NodeNVPTextBox3D ( NVPFontRef pFont, string pTxt, bool pDebug,
 	mDebugDraw = pDebug;
 	mFontPt = pPointSize;
 	render();
+	mLife = 0.f;
 }
 
 NodeNVPTextBox3D::~NodeNVPTextBox3D ( void )
@@ -33,6 +34,8 @@ void NodeNVPTextBox3D::setup()
 void NodeNVPTextBox3D::update ( double elapsed )
 {
 	Node3D::update(elapsed);
+	float rot = (mTargetRot-mInitRot) * mLife + mInitRot;
+	setRotation ( Vec3f ( 0, 1, 0 ), toRadians ( rot) );
 }
 void NodeNVPTextBox3D::render()
 {

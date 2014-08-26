@@ -2,6 +2,7 @@
 
 #include "cinder/Vector.h"
 #include "cinder/gl/gl.h"
+#include "cinder/Timeline.h"
 
 #include "UI/Node/Node.h"
 #include "NVPTextBox.h"
@@ -29,9 +30,16 @@ class NodeNVPTextBox3D
 	void update ( double elapsed = 0.0 );
 	void draw();
 	void render();
-
+	void setLife ( float val ) { mLife = val; };
+	ci::Anim<float> getLife() { return mLife;};
+	void setTargetRot ( float init, float val ) { mInitRot = init; mTargetRot = val; };
+	float getTargetRot() { return mTargetRot;};
+	
+	ci::Anim<float>		mLife;
   protected:
 	ci::NVPTextBoxRef					mTextBox;
+	float				mTargetRot;
+	float				mInitRot;
 };
 
 }
