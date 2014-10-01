@@ -65,7 +65,7 @@ void NVPTextBox::render()
 	mInitialOffset = mFont->getGlyphMetrics()->mHorizontalBearingX[mText.c_str() [0]];
 	mInvalid = false;
 }
-void	NVPTextBox::draw ( Vec2f offset )
+void	NVPTextBox::draw(vec2 offset)
 {
 	if ( mInvalid )
 		render();
@@ -91,12 +91,12 @@ void	NVPTextBox::draw ( Vec2f offset )
 			        half_thickness = metrics.mUnderlineThickness / 2;
 			glDisable ( GL_STENCIL_TEST );
 			gl::color ( mFillColor );
-			glBegin ( GL_QUAD_STRIP ); {
+			/*glBegin ( GL_QUAD_STRIP ); {
 				glVertex2f ( 0, position + half_thickness );
 				glVertex2f ( 0, position - half_thickness );
 				glVertex2f ( mTotalAdvance, position + half_thickness );
 				glVertex2f ( mTotalAdvance, position - half_thickness );
-			} glEnd();
+			} glEnd();*/
 			glEnable ( GL_STENCIL_TEST );
 		}
 
@@ -159,7 +159,7 @@ void	NVPTextBox::draw ( Vec2f offset )
 			gl::color ( Color ( 0.f, 0.f, 1.f ) );
 			gl::drawStrokedRect ( Rectf ( 0, metrics.mDescender, mTotalAdvance, metrics.mAscender + metrics.mDescender ) );
 			gl::color ( Color ( 1.f, 0.f, 0.f ) );
-			gl::drawSolidCircle ( Vec2f ( 0.f, 0.f ), 100 );
+			gl::drawSolidCircle ( vec2( 0.f, 0.f ), 100 );
 			glEnable ( GL_STENCIL_TEST );
 		}
 

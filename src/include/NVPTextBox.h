@@ -33,7 +33,7 @@ class NVPTextBox {
 	virtual void				setText ( const std::string &t ) { mText = t; mInvalid = true; }
 	void						appendText ( const std::string &t ) { mText += t; mInvalid = true; }
 
-	void						draw ( Vec2f offset = Vec2f::zero() );
+	void						draw(vec2 offset = vec2(0.f,0.f));
 	void						render();
 	ColorA						getFillColor() const { return mFillColor; }
 	void						setFillColor ( ColorA pCol ) { mFillColor = pCol; }
