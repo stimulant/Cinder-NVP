@@ -16,7 +16,7 @@ NVPFont::NVPFont ( std::string fontName, bool pSystemFont ) : numChars ( 256 ), 
 void NVPFont::createGlyphs()
 {
 	if ( mGlyphBase != 0 ) {
-		glDeletePathsNV ( mGlyphBase, numChars );
+		glDeletePathsNV ( mGlyphBase, 1+numChars );
 	}
 
 	mGlyphBase = 0;
