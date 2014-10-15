@@ -45,9 +45,9 @@ class NVPFont {
 	}
 
 	NVPFont ( std::string fontName = "Arial", bool pSystemFont = false );
-
+	~NVPFont ( );
 	//! get a pointer to the first glyph of the font
-	GLuint			getGlyphs() const { return glyphBase;}
+	GLuint			getGlyphs() const { return mGlyphBase;}
 	FontMetrics		getFontMetrics() const {return mFontMetrics;}
 	GlyphMetricsRef getGlyphMetrics() const { return mGlyphMetrics;}
 	float			getStrokeWidth() const {return mStrokeWidth;}
@@ -60,8 +60,8 @@ class NVPFont {
   protected:
 	void			createGlyphs();
 	std::string		mFontName;
-	GLuint			glyphBase;
-	GLuint			pathTemplate;
+	GLuint			mGlyphBase;
+	GLuint			mPathTemplate;
 	int				numChars;
 	int				mEmScale;
 	FontMetrics		mFontMetrics;

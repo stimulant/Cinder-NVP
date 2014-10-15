@@ -91,7 +91,7 @@
       <AdditionalIncludeDirectories>"$(CINDER_DIR)\include";..\include</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>cinder-$(PlatformToolset).lib;$(CINDER_DIR)\blocks\QuickTime\lib\msw\$(PlatformTarget)\CVClient.lib;$(CINDER_DIR)\blocks\QuickTime\lib\msw\$(PlatformTarget)\QTMLClient.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>cinder-$(PlatformToolset).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(CINDER_DIR)\lib\msw\$(PlatformTarget)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <GenerateMapFile>true</GenerateMapFile>

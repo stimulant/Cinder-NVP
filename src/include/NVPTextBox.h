@@ -27,6 +27,7 @@ class NVPTextBox {
 	}
 
 	NVPTextBox();
+	~NVPTextBox();
 
 	NVPTextBox					&text ( const std::string &t ) { setText ( t ); return *this; }
 	const std::string			&getText() const { return mText; }
@@ -65,15 +66,12 @@ class NVPTextBox {
 	GLfloat*		xtranslate;
 	uint32_t		mPathDefMode;
 	GLfloat			mTotalAdvance, mXBorder;
-	GLuint			mPathObj;
 	GLint			sRGB_capable;
 	int				hasFramebufferSRGB;
 
 	int				mRegularAspect;
 	int				mFillGradient;
 	int				emScale;
-
-	GLuint			mPathTemplate;
 
 	NVPFontRef		mFont;
 

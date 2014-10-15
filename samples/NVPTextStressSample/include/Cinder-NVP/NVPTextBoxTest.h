@@ -14,7 +14,8 @@ class NVPTextBoxTest : public NVPTextBox {
 	{
 		return ( NVPTextBoxTestRef ) ( new NVPTextBoxTest() );
 	}
-	NVPTextBoxTest::NVPTextBoxTest();
+	NVPTextBoxTest();
+
 	int		getLife() { return mLife; }
 	void	setLife ( float pLife ) { mLife = pLife; }
 	bool	getProcessing() { return mProcessing; }

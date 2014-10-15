@@ -167,6 +167,13 @@ void	NVPTextBox::draw ( Vec2f offset )
 		glDisable ( GL_STENCIL_TEST );
 	}
 }
-
+NVPTextBox::~NVPTextBox()
+{
+	if ( xtranslate != NULL ) {
+		free ( xtranslate );
+		xtranslate = NULL;
+	}
+	
+}
 
 } // namespace cinder
